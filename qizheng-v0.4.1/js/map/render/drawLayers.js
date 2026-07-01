@@ -1,7 +1,7 @@
 (function(){
 const QZ = window.QZ = window.QZ || {}, N = QZ.Natural, W = QZ.Water, V = QZ.Vegetation;
 const C = {
-  [N.grass]: '#9fbe77', [N.dirt]: '#c4a882', [N.high]: '#b8a067',
+  [N.grass]: '#d4c87a', [N.dirt]: '#c4a882', [N.high]: '#b8a067',
   [W.river]: '#4c95bd', [W.lake]: '#5b9fc4',
   [V.forest]: '#587d4e', [V.bush]: '#7fa36a',
 };
