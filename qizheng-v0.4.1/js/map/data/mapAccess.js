@@ -1,5 +1,6 @@
 (function(){
-const QZ = window.QZ = window.QZ || {}, B = (x, y) => x >= 0 && y >= 0 && x < QZ.cols && y < QZ.rows;
+const QZ = window.QZ = window.QZ || {};
+const B = (x, y) => x >= 0 && y >= 0 && x < QZ.cols && y < QZ.rows;
 const A = (map, x, y, v) => { if (B(x, y)) { if (v !== undefined) map[y][x] = v; return map[y][x]; } return 0; };
 QZ.inBounds = B;
 QZ.getNatural   = (x, y) => A(QZ.naturalMap, x, y);
@@ -8,12 +9,6 @@ QZ.getWater     = (x, y) => A(QZ.waterMap, x, y);
 QZ.setWater     = (x, y, v) => A(QZ.waterMap, x, y, v);
 QZ.getVegetation= (x, y) => A(QZ.vegetationMap, x, y);
 QZ.setVegetation= (x, y, v) => A(QZ.vegetationMap, x, y, v);
-QZ.getSurface   = (x, y) => A(QZ.surfaceMap, x, y);
-QZ.setSurface   = (x, y, v) => A(QZ.surfaceMap, x, y, v);
-QZ.getRoad      = (x, y) => A(QZ.roadMap, x, y);
-QZ.setRoad      = (x, y, v) => A(QZ.roadMap, x, y, v);
-QZ.getBuilding  = (x, y) => A(QZ.buildingMap, x, y);
-QZ.setBuilding  = (x, y, v) => A(QZ.buildingMap, x, y, v);
 QZ.getHeight    = (x, y) => B(x, y) ? QZ.heightMap[y][x] : 0;
 QZ.setHeight    = (x, y, h) => { if (B(x, y)) QZ.heightMap[y][x] = Math.max(0, Math.min(1, h)); };
 QZ.isWater      = (x, y) => QZ.getWater(x, y) > 0;

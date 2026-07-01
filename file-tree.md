@@ -1,4 +1,4 @@
-# 项目文件树 — 奇正相生 qizheng-interplay v0.4.2
+# 项目文件树 — 奇正相生 qizheng-interplay v0.4.2 自然战场底图版
 
 ```
 qizheng-v0.4.1/
@@ -8,15 +8,15 @@ qizheng-v0.4.1/
 ├── js/
 │   ├── qzNamespace.js      — QZ 全局命名空间入口（脚本第一加载）
 │   ├── prng.js             — 可种子化伪随机数生成器 (LCG)，地图可复现
-│   ├── main.js             — 启动器 + 主循环 (frame loop)，初始化、绑定控件
+│   ├── main.js             — 启动器 + 主循环，初始化、绑定控件、启动自检
 │   ├── map/
 │   │   ├── data/
-│   │   │   ├── mapConstants.js — 图层枚举常量 (Natural/Water/Vegetation/Surface/Road/Building)
-│   │   │   ├── mapLayers.js    — 6 层 + heightMap 数组初始化
+│   │   │   ├── mapConstants.js — 图层枚举常量 (Natural/Water/Vegetation)
+│   │   │   ├── mapLayers.js    — 3 层 + heightMap 数组初始化
 │   │   │   ├── mapAccess.js    — 逐层 get/set 访问器 + nearLayer + eachCell
 │   │   │   └── mapClear.js     — clearAll() 清空所有图层
 │   │   ├── render/
-│   │   │   ├── drawLayers.js   — 渲染管线：7 层按序绘制 + 高地阴影
+│   │   │   ├── drawLayers.js   — 渲染管线：4 层按序绘制 + 高地阴影
 │   │   │   └── drawOverlay.js  — 网格线 + 等高线 + 画笔游标
 │   │   ├── forest/
 │   │   │   └── forestPatch.js  — 森林斑块生成 (vegetationLayer)
@@ -24,7 +24,7 @@ qizheng-v0.4.1/
 │   │   │   └── riverPath.js    — 河流平滑生成 (waterLayer)
 │   │   ├── mapBrush.js     — 画笔交互：pointer→格子、分层写入、事件绑定
 │   │   ├── mapDraw.js      — 渲染编排：resizeCanvas + computeCellLayout + drawMap
-│   │   └── mapRandom.js    — 随机地图生成编排：高度图/高地/房屋/道路/装饰
+│   │   └── mapRandom.js    — 随机地图生成：高度图/高地/河流/森林/装饰
 │   └── ui/
 │       ├── uiControls.js   — UI 按钮事件绑定：地形选择、模式切换、笔刷、清空、随机
 │       └── uiState.js      — 状态管理：模式、地形、笔刷、种子、FPS、状态栏文本

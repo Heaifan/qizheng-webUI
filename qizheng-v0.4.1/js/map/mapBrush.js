@@ -18,7 +18,7 @@ QZ.canvasToCell = function(canvas, ev) {
 QZ.paintAt = function(cx, cy, state) {
   const info = QZ.LayerInfo[state.terrain];
   if (!info) return;
-  const setter = { natural: QZ.setNatural, water: QZ.setWater, vegetation: QZ.setVegetation, surface: QZ.setSurface, road: QZ.setRoad, building: QZ.setBuilding }[info.layer];
+  const setter = { natural: QZ.setNatural, water: QZ.setWater, vegetation: QZ.setVegetation }[info.layer];
   if (!setter) return;
   const half = Math.floor(state.brushSize / 2);
   for (let y = cy - half; y <= cy + half; y++) for (let x = cx - half; x <= cx + half; x++) {
