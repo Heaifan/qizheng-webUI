@@ -24,10 +24,25 @@ function shadeHigh(ctx) {
     ctx.globalAlpha = 1;
   }
 }
+function drawShore(ctx) {
+  // 水岸边缘：水体邻接非水体时画浅蓝过渡
+  ctx.save(); ctx.globalAlpha = .35;
+  for (let y = 0; y < QZ.rows; y++) for (let x = 0; x < QZ.cols; x++) {
+    if (!QZ.getWater(x, y)) continue;
+    for (const [dx, dy] of [[-1,0],[1,0],[0,-1],[0,1]]) {
+      const nx = x + dx, ny = y + dy;
+      if (!QZ.inBounds(nx, ny) || !QZ.getWater(nx, ny)) {
+        fill(ctx, x, y, '#b8d8e8'); break; // 一条边邻接非水即画岸线
+      }
+    }
+  }
+  ctx.restore();
+}
 QZ.renderLayers = function(ctx) {
   drawLayer(ctx, QZ.naturalMap, Cnatural); // 1. 自然地形
   shadeHigh(ctx);                           // 2. 高地阴影
   drawLayer(ctx, QZ.waterMap, Cwater);     // 3. 水文
+  drawShore(ctx);                           // 3b. 水岸线
   drawLayer(ctx, QZ.vegetationMap, Cveg);  // 4. 植被
 };
 // 启动自检：确认各层颜色不冲突

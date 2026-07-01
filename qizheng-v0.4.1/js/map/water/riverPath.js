@@ -1,5 +1,5 @@
 (function(){
-const QZ = window.QZ = window.QZ || {}, W = QZ.Water;
+const QZ = window.QZ = window.QZ || {};
 const R = (a,b) => a + QZ.random() * (b - a), RI = (a,b) => Math.floor(R(a, b + 1));
 const C = (v,a,b) => Math.max(a, Math.min(b, v)), L = (a,b,t) => a + (b - a) * t;
 function edgePt(side) {
@@ -40,20 +40,28 @@ function chaikin(pts) {
   }
   return out;
 }
-function circleStamp(cx, cy, r) {
-  for (let y = cy - r; y <= cy + r; y++) for (let x = cx - r; x <= cx + r; x++) {
-    if (QZ.inBounds(x, y) && Math.hypot(x - cx, y - cy) <= r + .45) QZ.setWater(x, y, W.river);
-  }
-}
 QZ.generateRiver = function() {
   const pairs = [['top','bottom'],['left','right'],['right','left'],['top','left'],['top','right'],['left','bottom'],['right','bottom']];
   const pair = pairs[RI(0, pairs.length - 1)], start = edgePt(pair[0]), end = edgePt(pair[1]);
   let pts = genCtrl(start, end);
   for (let i = 0; i < 20 && !validAngle(pts); i++) pts = genCtrl(start, end);
   const smooth = chaikin(chaikin(pts));
-  for (let i = 0; i < smooth.length; i++) {
-    const t = i / Math.max(1, smooth.length - 1);
-    circleStamp(smooth[i].x, smooth[i].y, Math.round(1 + Math.sin(t * Math.PI) * .8));
+  // 沿线连续 stamp：计算总步数，插值宽度渐变
+  let totalSteps = 0;
+  for (let i = 0; i < smooth.length - 1; i++) totalSteps += 1 + Math.max(Math.abs(smooth[i+1].x - smooth[i].x), Math.abs(smooth[i+1].y - smooth[i].y)) * 2;
+  let step = 0;
+  for (let i = 0; i < smooth.length - 1; i++) {
+    const a = smooth[i], b = smooth[i + 1];
+    const seg = 1 + Math.max(Math.abs(b.x - a.x), Math.abs(b.y - a.y)) * 2;
+    for (let s = 0; s <= seg; s++, step++) {
+      const t = step / totalSteps;
+      const x = Math.round(a.x + (b.x - a.x) * s / seg);
+      const y = Math.round(a.y + (b.y - a.y) * s / seg);
+      const r = Math.round(1 + Math.sin(t * Math.PI) * .8);
+      for (let dy = -r; dy <= r; dy++) for (let dx = -r; dx <= r; dx++) {
+        if (Math.hypot(dx, dy) <= r + .45) QZ.paintCell(x + dx, y + dy, 'water');
+      }
+    }
   }
   return pts;
 };
