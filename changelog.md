@@ -28,3 +28,24 @@ Canvas 网格比例修复 + 文档框架建立。地图改为正方形格子居�
 3. 边界误涂：`canvasToCell()` 越界返回 `null`，`move()` 检测 null 时只更新指针不执行 `paintAt()`。
 4. 随机可复现：新增 `js/map/prng.js`（LCG 种子化 PRNG），`QZ.random()` 替代所有 `Math.random()`，状态栏显示 Seed，截图时可提供种子值复现地图。
 文档同步：README.md 目录约束更新为 "根目录 ≤5 核心文件，子目录扩展"。
+
+## V0.0.0.7 | 2026-07-01 23:00:00
+
+**v0.4.2 分层地图模型重构。** 单层 `terrainMap` 拆分为 6 层明确图层：
+
+| 图层 | 用途 | 类型枚举 |
+|---|---|---|
+| `naturalMap` | 自然基础地形 | grass / dirt / high |
+| `waterMap` | 水体 | river / lake |
+| `vegetationMap` | 植被 | forest / bush |
+| `surfaceMap` | 人为地表 | concrete / yard |
+| `roadMap` | 道路 | path / road / bridge |
+| `buildingMap` | 建筑物 | house / warehouse |
+
+新文件结构：
+- `js/map/data/` — 常量、初始化、访问器、清空（4 文件）
+- `js/map/render/` — 分层渲染管线、叠加层（2 文件）
+- 移除 `mapData.js`、`mapContour.js`（功能迁移到 data/ 和 render/）
+- 新增水泥地按钮（concrete → surfaceMap）
+- 渲染顺序：自然 → 高地阴影 → 水体 → 人为地表 → 道路 → 植被 → 建筑 → 叠加层
+- 画笔写入对应图层，生成器写入对应图层，不再互相污染

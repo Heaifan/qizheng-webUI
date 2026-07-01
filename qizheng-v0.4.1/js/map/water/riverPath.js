@@ -1,9 +1,7 @@
 (function(){
-const QZ = window.QZ, T = QZ.Terrain;
-const R = (a,b) => a + QZ.random() * (b - a);
-const RI = (a,b) => Math.floor(R(a, b + 1));
-const C = (v,a,b) => Math.max(a, Math.min(b, v));
-const L = (a,b,t) => a + (b - a) * t;
+const QZ = window.QZ, W = QZ.Water;
+const R = (a,b) => a + QZ.random() * (b - a), RI = (a,b) => Math.floor(R(a, b + 1));
+const C = (v,a,b) => Math.max(a, Math.min(b, v)), L = (a,b,t) => a + (b - a) * t;
 function edgePt(side) {
   const mx = Math.floor(QZ.cols * .12), my = Math.floor(QZ.rows * .12);
   if (side === 'top') return { x: RI(mx, QZ.cols - mx), y: 0 };
@@ -44,7 +42,7 @@ function chaikin(pts) {
 }
 function circleStamp(cx, cy, r) {
   for (let y = cy - r; y <= cy + r; y++) for (let x = cx - r; x <= cx + r; x++) {
-    if (QZ.inBounds(x, y) && Math.hypot(x - cx, y - cy) <= r + .45) QZ.setTerrain(x, y, T.water);
+    if (QZ.inBounds(x, y) && Math.hypot(x - cx, y - cy) <= r + .45) QZ.setWater(x, y, W.river);
   }
 }
 QZ.generateRiver = function() {
