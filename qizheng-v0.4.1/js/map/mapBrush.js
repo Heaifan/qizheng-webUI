@@ -17,13 +17,16 @@ QZ.canvasToCell = function(canvas, ev) {
 };
 QZ.paintAt = function(cx, cy, state) {
   const info = QZ.LayerInfo[state.terrain];
+  QZ.log('画笔@('+cx+','+cy+') terrain='+state.terrain+' layer='+(info?info.layer:'?')+' val='+(info?info.value:'?'));
   if (!info) return;
   const setter = { natural: QZ.setNatural, water: QZ.setWater, vegetation: QZ.setVegetation }[info.layer];
-  if (!setter) return;
+  if (!setter) { QZ.log('  ✗ 无setter: '+info.layer); return; }
   const half = Math.floor(state.brushSize / 2);
   for (let y = cy - half; y <= cy + half; y++) for (let x = cx - half; x <= cx + half; x++) {
     if (Math.abs(x - cx) + Math.abs(y - cy) <= half + 1 && QZ.inBounds(x, y)) setter(x, y, info.value);
   }
+  const readback = QZ.inBounds(cx, cy) ? ' natural='+QZ.getNatural(cx,cy)+' water='+QZ.getWater(cx,cy)+' veg='+QZ.getVegetation(cx,cy) : '';
+  QZ.log('  ✓ 写入完成'+readback);
   state.dirty = true;
 };
 QZ.bindBrushEvents = function(canvas, state) {

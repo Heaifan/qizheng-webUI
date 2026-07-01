@@ -6,7 +6,8 @@ QZ.bindControls=function(state,actions){
   const setActive=()=>terrainButtons.forEach(b=>b.classList.toggle('active',b.dataset.terrain===state.terrain));
   terrainButtons.forEach(btn=>btn.addEventListener('click',()=>{
     const type=QZ.Terrain[btn.dataset.terrain];
-    if(type)QZ.setTerrainType(state,type);setActive();
+    if(type){QZ.setTerrainType(state,type);QZ.log('选地形: '+type+' → '+QZ.Names[type]);}
+    setActive();
   }));
   document.querySelector('#brushDown').addEventListener('click',()=>QZ.changeBrush(state,-1));
   document.querySelector('#brushUp').addEventListener('click',()=>QZ.changeBrush(state,1));
