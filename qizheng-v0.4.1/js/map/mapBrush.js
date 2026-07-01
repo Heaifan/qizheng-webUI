@@ -23,7 +23,11 @@ QZ.paintAt = function(cx, cy, state) {
   if (!setter) { QZ.log('  ✗ 无setter: '+info.layer); return; }
   const half = Math.floor(state.brushSize / 2);
   for (let y = cy - half; y <= cy + half; y++) for (let x = cx - half; x <= cx + half; x++) {
-    if (Math.abs(x - cx) + Math.abs(y - cy) <= half + 1 && QZ.inBounds(x, y)) setter(x, y, info.value);
+    if (!QZ.inBounds(x, y) || Math.abs(x - cx) + Math.abs(y - cy) > half + 1) continue;
+    setter(x, y, info.value);
+    // 清除冲突层：自然/水文写入时清植被，水文写入时也清自然(可选)
+    if (info.layer === 'natural') { QZ.setVegetation(x, y, 0); QZ.setWater(x, y, 0); }
+    if (info.layer === 'water') { QZ.setVegetation(x, y, 0); }
   }
   const readback = QZ.inBounds(cx, cy) ? ' natural='+QZ.getNatural(cx,cy)+' water='+QZ.getWater(cx,cy)+' veg='+QZ.getVegetation(cx,cy) : '';
   QZ.log('  ✓ 写入完成'+readback);
