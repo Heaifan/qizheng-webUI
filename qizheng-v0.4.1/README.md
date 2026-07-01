@@ -22,11 +22,13 @@ js/map/mapBrush.js
 js/map/mapDraw.js
 js/map/mapRandom.js
 js/map/mapContour.js
+js/map/forest/forestPatch.js
+js/map/water/riverPath.js
 js/ui/uiState.js
 js/ui/uiControls.js
 ```
 
 ## 约束
 
-- `map/` 目录保持 5 个源码文件。
+- `js/map/` 根目录保持 ≤5 个核心装配文件，领域逻辑下沉到子目录（如 `forest/`、`water/`）。
 - 所有 JS 文件均控制在 100 行以内。

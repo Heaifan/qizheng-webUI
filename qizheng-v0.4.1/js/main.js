@@ -9,7 +9,7 @@ function refreshStatus(){
   statusBar.textContent=QZ.statusText(state,portrait);
 }
 function randomMap(){QZ.generateRandomMap();state.dirty=true;}
-function clearMap(){QZ.clearTerrain(QZ.Terrain.grass);state.dirty=true;}
+function clearMap(){QZ.clearTerrain(QZ.Terrain.grass,true);state.dirty=true;}
 function frame(now){
   QZ.updateFps(state,now);
   if(QZ.resizeCanvas(canvas))state.dirty=true;

@@ -19,7 +19,8 @@ function fillCell(ctx, x, y, type) {
   ctx.fillStyle = Color[type] || Color[T.grass];
   ctx.fillRect(QZ.offsetX + x * QZ.cellSize, QZ.offsetY + y * QZ.cellSize, QZ.cellSize + 1, QZ.cellSize + 1);
 }
-function shadeHigh(ctx, x, y) {
+function shadeHigh(ctx, x, y, type) {
+  if (type !== T.high) return;
   const h = QZ.getHeight(x, y); if (h < .55) return;
   ctx.globalAlpha = Math.min(.18, (h - .55) * .45);
   ctx.fillStyle = '#fff2b2';
@@ -54,7 +55,7 @@ QZ.drawMap = function(canvas, state) {
   QZ.resizeCanvas(canvas); QZ.computeCellLayout(canvas);
   const ctx = canvas.getContext('2d'), w = canvas.width, h = canvas.height;
   ctx.clearRect(0, 0, w, h);
-  QZ.eachCell((x, y, type) => { fillCell(ctx, x, y, type); shadeHigh(ctx, x, y); });
+  QZ.eachCell((x, y, type) => { fillCell(ctx, x, y, type); shadeHigh(ctx, x, y, type); });
   drawGrid(ctx); QZ.drawContour(ctx); drawCursor(ctx, state);
 };
 })();

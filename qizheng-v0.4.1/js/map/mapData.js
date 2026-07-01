@@ -8,7 +8,9 @@ QZ.initMap=function(cols=72,rows=128){
   QZ.cols=cols;QZ.rows=rows;QZ.terrainMap=QZ.makeGrid(Terrain.grass);
   QZ.heightMap=Array.from({length:rows},()=>Array(cols).fill(.45));return QZ;
 };
-QZ.clearTerrain=function(value=Terrain.grass){for(let y=0;y<QZ.rows;y++)QZ.terrainMap[y].fill(value);};
+QZ.clearTerrain=function(value=Terrain.grass,resetHeight){
+  for(let y=0;y<QZ.rows;y++){QZ.terrainMap[y].fill(value);if(resetHeight)QZ.heightMap[y].fill(.45);}
+};
 QZ.inBounds=function(x,y){return x>=0&&y>=0&&x<QZ.cols&&y<QZ.rows;};
 QZ.getTerrain=function(x,y){return QZ.inBounds(x,y)?QZ.terrainMap[y][x]:null;};
 QZ.setTerrain=function(x,y,type){if(QZ.inBounds(x,y))QZ.terrainMap[y][x]=type;};

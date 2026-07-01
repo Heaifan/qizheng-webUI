@@ -3,8 +3,8 @@ const QZ=window.QZ,T=QZ.Terrain;
 const R=(a,b)=>a+Math.random()*(b-a),RI=(a,b)=>Math.floor(R(a,b+1));
 const C=(v,a,b)=>Math.max(a,Math.min(b,v)),L=(a,b,t)=>a+(b-a)*t;
 QZ.generateRandomMap=function(){
-  QZ.clearTerrain(T.grass);buildHeight();baseTerrain();QZ.generateForestPatches();
-  const river=QZ.generateRiver(),houses=makeHouses();connectHouses(houses);decorate();return{river,houses};
+  QZ.clearTerrain(T.grass);buildHeight();baseTerrain();
+  const river=QZ.generateRiver();QZ.generateForestPatches();const houses=makeHouses();connectHouses(houses);decorate();return{river,houses};
 };
 function buildHeight(){
   const ax=R(.02,.06),ay=R(.02,.06),px=R(0,9),py=R(0,9),slope=R(-.25,.25);

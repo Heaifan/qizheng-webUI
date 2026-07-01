@@ -12,7 +12,8 @@ QZ.canvasToCell = function(canvas, ev) {
   const px = (p.x - r.left) * dpr, py = (p.y - r.top) * dpr;
   const x = Math.floor((px - QZ.offsetX) / QZ.cellSize);
   const y = Math.floor((py - QZ.offsetY) / QZ.cellSize);
-  return { x: Math.max(0, Math.min(QZ.cols - 1, x)), y: Math.max(0, Math.min(QZ.rows - 1, y)) };
+  if (x < 0 || y < 0 || x >= QZ.cols || y >= QZ.rows) return null;
+  return { x, y };
 };
 QZ.paintAt = function(cx, cy, state) {
   const half = Math.floor(state.brushSize / 2);
@@ -25,6 +26,7 @@ QZ.bindBrushEvents = function(canvas, state) {
   let down = false;
   const move = ev => {
     ev.preventDefault(); const cell = QZ.canvasToCell(canvas, ev);
+    if (!cell) { QZ.setPointerCell(state, -1, -1); return; }
     QZ.setPointerCell(state, cell.x, cell.y);
     if (down && state.mode === 'brush') QZ.paintAt(cell.x, cell.y, state);
   };

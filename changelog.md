@@ -19,3 +19,11 @@ Canvas 网格比例修复 + 文档框架建立。地图改为正方形格子居�
 ## V0.0.0.5 | 2026-07-01 22:10:00
 
 **河流平滑与限弯。** 新增 `js/map/water/riverPath.js`：Chaikin 细分 2 次平滑控制点、角度检测防回头弯（折角 > 113° 重试）、圆形印章 + 正弦渐变宽度（河宽 3~5 连续变化）。`mapRandom.js` 移除旧的 `makeRiver()` 和 `edgePoint()`。
+
+## V0.0.0.6 | 2026-07-01 22:25:00
+
+**v0.4.1-A 稳定性修复。** 修复三个逻辑问题：
+1. 生成顺序：河流先生成后森林，`forestPatch.js` 的 `nearTerrain(water)` 判断不再无效。
+2. 清空残留：`clearTerrain()` 新增 `resetHeight` 参数，清空时重置 heightMap；`shadeHigh()` 只对 `high` 地形绘制阴影。
+3. 边界误涂：`canvasToCell()` 越界返回 `null`，`move()` 检测 null 时只更新指针不执行 `paintAt()`。
+文档同步：README.md 目录约束更新为 "根目录 ≤5 核心文件，子目录扩展"。`mapRandom.js` 降至 75 行。
