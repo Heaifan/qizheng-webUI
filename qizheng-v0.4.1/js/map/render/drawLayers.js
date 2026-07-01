@@ -1,7 +1,7 @@
 (function(){
 const QZ = window.QZ = window.QZ || {}, N = QZ.Natural, W = QZ.Water, V = QZ.Vegetation;
 // 每个图层独立颜色表 —— 禁止合并！各层枚举值都从1开始，合并会 key 冲突
-const Cnatural = { [N.grass]: '#d4c87a', [N.dirt]: '#c4a882', [N.high]: '#b8a067' };
+const Cnatural = { [N.grass]: '#aecf7e', [N.dirt]: '#c4a882', [N.high]: '#b8a067' };
 const Cwater   = { [W.river]: '#4c95bd', [W.lake]: '#5b9fc4' };
 const Cveg     = { [V.forest]: '#587d4e', [V.bush]: '#7fa36a' };
 function fill(ctx, x, y, color) {
