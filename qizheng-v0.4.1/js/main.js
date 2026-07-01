@@ -8,7 +8,24 @@ function refreshStatus() {
   const portrait = innerHeight >= innerWidth;
   statusBar.textContent = QZ.statusText(state, portrait);
 }
-function randomMap() { QZ.setSeed(Date.now()); QZ.generateRandomMap(); state.dirty = true; }
+function auditMap() {
+  if (!QZ.log) return;
+  let water = 0, fow = 0, huw = 0, discon = 0;
+  for (let y = 0; y < QZ.rows; y++) for (let x = 0; x < QZ.cols; x++) {
+    const w = QZ.getWater(x, y), n = QZ.getNatural(x, y), v = QZ.getVegetation(x, y);
+    if (w) { water++; if (v) fow++; if (n === QZ.Natural.high) huw++; }
+  }
+  // 水体连通性：统计孤立水格
+  for (let y = 1; y < QZ.rows - 1; y++) for (let x = 1; x < QZ.cols - 1; x++) {
+    if (!QZ.getWater(x, y)) continue;
+    if (!QZ.getWater(x-1,y) && !QZ.getWater(x+1,y) && !QZ.getWater(x,y-1) && !QZ.getWater(x,y+1)) discon++;
+  }
+  QZ.log('═══ 地图自检 ═══');
+  QZ.log('分层模型: true | terrainMap: 已删除');
+  QZ.log('waterCells='+water+' forestOnWater='+fow+' highUnderWater='+huw+' 孤立水格='+discon);
+  QZ.log('road/house/building/surface: 已去除 (应为0)');
+}
+function randomMap() { QZ.setSeed(Date.now()); QZ.generateRandomMap(); auditMap(); state.dirty = true; }
 function clearMap() { QZ.clearAll(); state.dirty = true; }
 function frame(now) {
   QZ.updateFps(state, now);

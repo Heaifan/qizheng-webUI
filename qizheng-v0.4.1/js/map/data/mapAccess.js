@@ -34,7 +34,7 @@ QZ.paintCell = function(x, y, terrain) {
     QZ.setWater(x, y, info.value);
     QZ.setVegetation(x, y, 0);
     if (QZ.getNatural(x, y) === QZ.Natural.high) QZ.setNatural(x, y, QZ.Natural.grass);
-    QZ.setHeight(x, y, 0.28 + Math.random() * 0.08);
+    QZ.setHeight(x, y, 0.28 + QZ.random() * 0.08);
   } else if (info.layer === 'vegetation') {
     if (QZ.getWater(x, y) > 0) return; // 水面上禁止种树
     QZ.setVegetation(x, y, info.value);
