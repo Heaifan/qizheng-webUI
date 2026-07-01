@@ -10,6 +10,8 @@ qizheng-v0.4.1/
 │   ├── map/
 │   │   ├── forest/
 │   │   │   └── forestPatch.js — 森林斑块生成器：中心扩散+边缘衰减，非逐格随机
+│   │   ├── water/
+│   │   │   └── riverPath.js   — 河流平滑生成器：Chaikin 细分+角度检测+宽度渐变
 │   │   ├── mapData.js      — 数据层：地形常量、网格创建、terrainMap/heightMap 读写
 │   │   ├── mapBrush.js     — 画笔交互：pointer 坐标转格子、拖动填充、事件绑定
 │   │   ├── mapContour.js   — 等高线渲染（默认隐藏），基于 heightMap 绘制轮廓

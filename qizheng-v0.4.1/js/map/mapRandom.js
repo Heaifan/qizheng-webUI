@@ -4,7 +4,7 @@ const R=(a,b)=>a+Math.random()*(b-a),RI=(a,b)=>Math.floor(R(a,b+1));
 const C=(v,a,b)=>Math.max(a,Math.min(b,v)),L=(a,b,t)=>a+(b-a)*t;
 QZ.generateRandomMap=function(){
   QZ.clearTerrain(T.grass);buildHeight();baseTerrain();QZ.generateForestPatches();
-  const river=makeRiver(),houses=makeHouses();connectHouses(houses);decorate();return{river,houses};
+  const river=QZ.generateRiver(),houses=makeHouses();connectHouses(houses);decorate();return{river,houses};
 };
 function buildHeight(){
   const ax=R(.02,.06),ay=R(.02,.06),px=R(0,9),py=R(0,9),slope=R(-.25,.25);
@@ -26,24 +26,7 @@ function baseTerrain(){
     else QZ.setTerrain(x, y, T.grass);
   }
 }
-function edgePoint(side){
-  const mx=Math.floor(QZ.cols*.12),my=Math.floor(QZ.rows*.12);
-  if(side==='top')return{x:RI(mx,QZ.cols-mx),y:0};
-  if(side==='bottom')return{x:RI(mx,QZ.cols-mx),y:QZ.rows-1};
-  if(side==='left')return{x:0,y:RI(my,QZ.rows-my)};
-  return{x:QZ.cols-1,y:RI(my,QZ.rows-my)};
-}
-function makeRiver(){
-  const pairs=[['top','bottom'],['left','right'],['right','left'],['top','left'],['top','right'],['left','bottom'],['right','bottom']];
-  const pair=pairs[RI(0,pairs.length-1)],start=edgePoint(pair[0]),end=edgePoint(pair[1]);
-  const count=RI(3,5),amp=Math.min(QZ.cols,QZ.rows)*R(.12,.24),pts=[start];
-  for(let i=1;i<=count;i++){
-    const t=i/(count+1),ox=R(-amp,amp),oy=R(-amp,amp);
-    pts.push({x:C(Math.round(L(start.x,end.x,t)+ox),1,QZ.cols-2),y:C(Math.round(L(start.y,end.y,t)+oy),1,QZ.rows-2)});
-  }
-  pts.push(end);for(let i=0;i<pts.length-1;i++)line(pts[i],pts[i+1],T.water,RI(2,5),999);
-  return pts;
-}
+/* edgePoint() 和 makeRiver() 已迁移至 js/map/water/riverPath.js */
 function line(a,b,type,width,waterBudget){
   const dx=b.x-a.x,dy=b.y-a.y,steps=Math.max(Math.abs(dx),Math.abs(dy))*2+1;let budget=waterBudget;
   for(let i=0;i<=steps;i++){
