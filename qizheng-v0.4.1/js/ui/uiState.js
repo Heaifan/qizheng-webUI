@@ -24,6 +24,6 @@ QZ.updateFps=function(state,now){
 QZ.statusText=function(state,portrait){
   const dir=portrait?'竖屏':'横屏',mode=state.mode==='brush'?'画笔':'查看';
   const cell=state.cellX>=0?` | 格:${state.cellX},${state.cellY}`:'';
-  return`${dir} | 模式:${mode} | 地形:${QZ.terrainName(state.terrain)} | 笔:${state.brushSize}格${cell} | FPS:${state.fps}`;
+  return`${dir} | 模式:${mode} | 地形:${QZ.terrainName(state.terrain)} | 笔:${state.brushSize}格${cell} | Seed:${QZ.lastSeed} | FPS:${state.fps}`;
 };
 })();

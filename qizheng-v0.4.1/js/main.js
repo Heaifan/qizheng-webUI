@@ -8,7 +8,7 @@ function refreshStatus(){
   const portrait=innerHeight>=innerWidth;
   statusBar.textContent=QZ.statusText(state,portrait);
 }
-function randomMap(){QZ.generateRandomMap();state.dirty=true;}
+function randomMap(){QZ.setSeed(Date.now());QZ.generateRandomMap();state.dirty=true;}
 function clearMap(){QZ.clearTerrain(QZ.Terrain.grass,true);state.dirty=true;}
 function frame(now){
   QZ.updateFps(state,now);
@@ -17,7 +17,7 @@ function frame(now){
   requestAnimationFrame(frame);
 }
 function boot(){
-  QZ.initMap();QZ.showContour=false;
+  QZ.initMap();QZ.showContour=false;QZ.setSeed(Date.now());
   QZ.bindControls(state,{random:randomMap,clear:clearMap});
   QZ.bindBrushEvents(canvas,state);randomMap();
   loading.classList.add('hide');requestAnimationFrame(frame);

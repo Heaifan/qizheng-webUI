@@ -1,6 +1,6 @@
 (function(){
 const QZ = window.QZ, T = QZ.Terrain;
-const R = (a,b) => a + Math.random() * (b - a);
+const R = (a,b) => a + QZ.random() * (b - a);
 const RI = (a,b) => Math.floor(R(a, b + 1));
 const C = (v,a,b) => Math.max(a, Math.min(b, v));
 const L = (a,b,t) => a + (b - a) * t;

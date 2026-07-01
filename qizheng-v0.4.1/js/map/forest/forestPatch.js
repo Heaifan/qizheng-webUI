@@ -1,5 +1,5 @@
 (function(){
-const QZ = window.QZ, T = QZ.Terrain, RI = (a,b) => Math.floor(a + Math.random() * (b - a + 1));
+const QZ = window.QZ, T = QZ.Terrain, RI = (a,b) => QZ.randomInt(a, b);
 QZ.generateForestPatches = function(){
   // 生成 8~18 个树林中心，每中心半径 3~10 格
   const target = RI(8, 18), centers = [];

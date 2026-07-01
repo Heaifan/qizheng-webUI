@@ -26,4 +26,5 @@ Canvas 网格比例修复 + 文档框架建立。地图改为正方形格子居�
 1. 生成顺序：河流先生成后森林，`forestPatch.js` 的 `nearTerrain(water)` 判断不再无效。
 2. 清空残留：`clearTerrain()` 新增 `resetHeight` 参数，清空时重置 heightMap；`shadeHigh()` 只对 `high` 地形绘制阴影。
 3. 边界误涂：`canvasToCell()` 越界返回 `null`，`move()` 检测 null 时只更新指针不执行 `paintAt()`。
-文档同步：README.md 目录约束更新为 "根目录 ≤5 核心文件，子目录扩展"。`mapRandom.js` 降至 75 行。
+4. 随机可复现：新增 `js/map/prng.js`（LCG 种子化 PRNG），`QZ.random()` 替代所有 `Math.random()`，状态栏显示 Seed，截图时可提供种子值复现地图。
+文档同步：README.md 目录约束更新为 "根目录 ≤5 核心文件，子目录扩展"。

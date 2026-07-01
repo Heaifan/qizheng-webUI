@@ -1,6 +1,6 @@
 (function(){
 const QZ=window.QZ,T=QZ.Terrain;
-const R=(a,b)=>a+Math.random()*(b-a),RI=(a,b)=>Math.floor(R(a,b+1));
+const R=(a,b)=>a+QZ.random()*(b-a),RI=(a,b)=>Math.floor(R(a,b+1));
 const C=(v,a,b)=>Math.max(a,Math.min(b,v)),L=(a,b,t)=>a+(b-a)*t;
 QZ.generateRandomMap=function(){
   QZ.clearTerrain(T.grass);buildHeight();baseTerrain();

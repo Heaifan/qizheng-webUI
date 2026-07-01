@@ -6,6 +6,7 @@ qizheng-v0.4.1/
 ├── css/
 │   └── app.css             — 主样式，响应式布局，桌面/横屏/手机适配
 ├── js/
+│   ├── prng.js             — 可种子化伪随机数生成器 (LCG)，地图可复现
 │   ├── main.js             — 启动器 + 主循环 (frame loop)，初始化、绑定控件
 │   ├── map/
 │   │   ├── forest/
@@ -19,10 +20,18 @@ qizheng-v0.4.1/
 │   │   └── mapRandom.js    — 随机地图生成器：高度图、河流、房屋、道路、装饰
 │   └── ui/
 │       ├── uiControls.js   — UI 按钮事件绑定：地形选择、模式切换、笔刷、清空、随机
-│       └── uiState.js      — 状态管理：模式、地形、笔刷、FPS、状态栏文本
+│       └── uiState.js      — 状态管理：模式、地形、笔刷、FPS、种子值、状态栏文本
 ├── README.md               — 项目说明文档
 ├── file-tree.md            — 本文件，项目文件树与功能说明
 └── changelog.md            — 变更日志
 ```
 
 **说明：** 所有 JS 文件均为 IIFE + `window.QZ` 命名空间的纯前端脚本，无框架依赖，通过 `<script>` 标签按序加载。
+
+### 约束
+
+- `js/map/` 根目录保持 ≤5 个核心装配文件（当前 5 个）。
+- 领域逻辑下沉到子目录（如 `forest/`、`water/`）。
+- 跨模块基础设施文件位于 `js/` 根目录（如 `prng.js`）。
+- 所有 JS 文件 ≤ 100 行。
+- 新增/移动文件须同步更新 `file-tree.md` 和 `changelog.md`。
