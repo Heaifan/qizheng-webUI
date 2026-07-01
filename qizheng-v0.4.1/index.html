@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <title>奇正相生 v0.4.1 随机水路重构版</title>
+  <link rel="stylesheet" href="./css/app.css" />
+</head>
+<body>
+  <main id="app" class="app">
+    <header class="topbar">
+      <div>
+        <strong>奇正相生</strong>
+        <span>v0.4.1 随机水路重构版</span>
+      </div>
+      <button id="randomBtn" class="primary">随机地图</button>
+    </header>
+
+    <section class="canvasWrap">
+      <canvas id="mapCanvas" aria-label="战术地图编辑画布"></canvas>
+      <div id="loading" class="loading">初始化中...</div>
+    </section>
+
+    <section class="panel">
+      <div class="row">
+        <label>地形：</label>
+        <button data-terrain="grass">草地</button>
+        <button data-terrain="road">道路</button>
+        <button data-terrain="forest">树林</button>
+        <button data-terrain="water">水面</button>
+        <button data-terrain="house">房屋</button>
+        <button data-terrain="high">高地</button>
+      </div>
+      <div class="row">
+        <label>操作：</label>
+        <button id="modeBtn">模式：画笔</button>
+        <button id="brushDown">画笔-</button>
+        <button id="brushUp">画笔+</button>
+        <button id="clearBtn">清空</button>
+      </div>
+    </section>
+
+    <footer id="statusBar" class="status">竖屏 | 模式:画笔 | 地形:草地 | 笔:4格 | FPS:0</footer>
+  </main>
+  <script src="./js/map/mapData.js"></script>
+  <script src="./js/map/mapContour.js"></script>
+  <script src="./js/map/mapDraw.js"></script>
+  <script src="./js/map/mapBrush.js"></script>
+  <script src="./js/ui/uiState.js"></script>
+  <script src="./js/ui/uiControls.js"></script>
+  <script src="./js/map/forest/forestPatch.js"></script>
+  <script src="./js/map/mapRandom.js"></script>
+  <script src="./js/main.js"></script>
+</body>
+</html>
