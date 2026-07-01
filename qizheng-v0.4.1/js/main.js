@@ -10,20 +10,39 @@ function refreshStatus() {
 }
 function auditMap() {
   if (!QZ.log) return;
-  let water = 0, fow = 0, huw = 0, discon = 0;
+  let water = 0, fow = 0, huw = 0, discon = 0, borderSides = new Set();
+  // 水体连通分量分析（洪水填充）
+  const visited = Array.from({ length: QZ.rows }, () => Array(QZ.cols).fill(0));
+  const comps = [];
   for (let y = 0; y < QZ.rows; y++) for (let x = 0; x < QZ.cols; x++) {
     const w = QZ.getWater(x, y), n = QZ.getNatural(x, y), v = QZ.getVegetation(x, y);
     if (w) { water++; if (v) fow++; if (n === QZ.Natural.high) huw++; }
+    if (w && !visited[y][x]) {
+      let size = 0, stack = [[x, y]];
+      visited[y][x] = 1;
+      while (stack.length) {
+        const [cx, cy] = stack.pop(); size++;
+        if (cx === 0) borderSides.add('left');
+        if (cx === QZ.cols - 1) borderSides.add('right');
+        if (cy === 0) borderSides.add('top');
+        if (cy === QZ.rows - 1) borderSides.add('bottom');
+        for (const [dx, dy] of [[-1,0],[1,0],[0,-1],[0,1]]) {
+          const nx = cx + dx, ny = cy + dy;
+          if (QZ.inBounds(nx, ny) && QZ.getWater(nx, ny) && !visited[ny][nx]) {
+            visited[ny][nx] = 1; stack.push([nx, ny]);
+          }
+        }
+      }
+      comps.push(size);
+    }
   }
-  // 水体连通性：统计孤立水格
-  for (let y = 1; y < QZ.rows - 1; y++) for (let x = 1; x < QZ.cols - 1; x++) {
-    if (!QZ.getWater(x, y)) continue;
-    if (!QZ.getWater(x-1,y) && !QZ.getWater(x+1,y) && !QZ.getWater(x,y-1) && !QZ.getWater(x,y+1)) discon++;
-  }
+  comps.sort((a, b) => b - a);
+  const largest = comps[0] || 0, total = water || 1;
   QZ.log('═══ 地图自检 ═══');
   QZ.log('分层模型: true | terrainMap: 已删除');
-  QZ.log('waterCells='+water+' forestOnWater='+fow+' highUnderWater='+huw+' 孤立水格='+discon);
-  QZ.log('road/house/building/surface: 已去除 (应为0)');
+  QZ.log('water=' + water + ' 最大连通=' + largest + ' (' + (largest * 100 / total).toFixed(0) + '%) 分量数=' + comps.length);
+  QZ.log('forestOnWater=' + fow + ' highUnderWater=' + huw + ' 孤立水格=' + discon + ' 触边=' + borderSides.size + '(' + [...borderSides].join('/') + ')');
+  QZ.log('road/house: 已去除');
 }
 function randomMap() { QZ.setSeed(Date.now()); QZ.generateRandomMap(); auditMap(); state.dirty = true; }
 function clearMap() { QZ.clearAll(); state.dirty = true; }
