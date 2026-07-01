@@ -10,39 +10,58 @@ function refreshStatus() {
 }
 function auditMap() {
   if (!QZ.log) return;
-  let water = 0, fow = 0, huw = 0, discon = 0, borderSides = new Set();
-  // 水体连通分量分析（洪水填充）
-  const visited = Array.from({ length: QZ.rows }, () => Array(QZ.cols).fill(0));
-  const comps = [];
-  for (let y = 0; y < QZ.rows; y++) for (let x = 0; x < QZ.cols; x++) {
+  let water = 0, fow = 0, huw = 0, isolated = 0;
+  let isoForest = 0, largestForest = 0, highCells = 0, forestCells = 0;
+  // 统计：孤立水格、孤立森林、高占比、森林占比
+  for (let y = 1; y < QZ.rows - 1; y++) for (let x = 1; x < QZ.cols - 1; x++) {
     const w = QZ.getWater(x, y), n = QZ.getNatural(x, y), v = QZ.getVegetation(x, y);
     if (w) { water++; if (v) fow++; if (n === QZ.Natural.high) huw++; }
-    if (w && !visited[y][x]) {
-      let size = 0, stack = [[x, y]];
-      visited[y][x] = 1;
-      while (stack.length) {
-        const [cx, cy] = stack.pop(); size++;
-        if (cx === 0) borderSides.add('left');
-        if (cx === QZ.cols - 1) borderSides.add('right');
-        if (cy === 0) borderSides.add('top');
-        if (cy === QZ.rows - 1) borderSides.add('bottom');
-        for (const [dx, dy] of [[-1,0],[1,0],[0,-1],[0,1]]) {
-          const nx = cx + dx, ny = cy + dy;
-          if (QZ.inBounds(nx, ny) && QZ.getWater(nx, ny) && !visited[ny][nx]) {
-            visited[ny][nx] = 1; stack.push([nx, ny]);
-          }
-        }
-      }
-      comps.push(size);
-    }
+    if (n === QZ.Natural.high) highCells++;
+    if (v) forestCells++;
+    if (v && !QZ.getVegetation(x-1,y) && !QZ.getVegetation(x+1,y) && !QZ.getVegetation(x,y-1) && !QZ.getVegetation(x,y+1)) isoForest++;
   }
-  comps.sort((a, b) => b - a);
-  const largest = comps[0] || 0, total = water || 1;
+  // 连通分量分析（洪水填充），记录每个分量的触边
+  const visited = Array.from({ length: QZ.rows }, () => Array(QZ.cols).fill(0));
+  const comps = []; // { size, touches: Set }
+  for (let y = 0; y < QZ.rows; y++) for (let x = 0; x < QZ.cols; x++) {
+    if (!QZ.getWater(x, y) || visited[y][x]) continue;
+    const comp = { size: 0, touches: new Set(), stack: [[x, y]] };
+    visited[y][x] = 1;
+    while (comp.stack.length) {
+      const [cx, cy] = comp.stack.pop(); comp.size++;
+      if (cx === 0) comp.touches.add('L'); if (cx === QZ.cols - 1) comp.touches.add('R');
+      if (cy === 0) comp.touches.add('T'); if (cy === QZ.rows - 1) comp.touches.add('B');
+      let adj = 0;
+      for (const [dx, dy] of [[-1,0],[1,0],[0,-1],[0,1]]) {
+        const nx = cx + dx, ny = cy + dy;
+        if (QZ.inBounds(nx, ny) && QZ.getWater(nx, ny)) { adj++; if (!visited[ny][nx]) { visited[ny][nx] = 1; comp.stack.push([nx, ny]); } }
+      }
+      if (adj === 0) isolated++;
+    }
+    comps.push(comp);
+  }
+  // 森林连通：最大斑块
+  const fvis = Array.from({ length: QZ.rows }, () => Array(QZ.cols).fill(0));
+  for (let y = 1; y < QZ.rows - 1; y++) for (let x = 1; x < QZ.cols - 1; x++) {
+    if (!QZ.getVegetation(x, y) || fvis[y][x]) continue;
+    let size = 0, stack = [[x, y]]; fvis[y][x] = 1;
+    while (stack.length) {
+      const [cx, cy] = stack.pop(); size++;
+      for (const [dx, dy] of [[-1,0],[1,0],[0,-1],[0,1]]) {
+        const nx = cx + dx, ny = cy + dy;
+        if (QZ.inBounds(nx, ny) && QZ.getVegetation(nx, ny) && !fvis[ny][nx]) { fvis[ny][nx] = 1; stack.push([nx, ny]); }
+      }
+    }
+    if (size > largestForest) largestForest = size;
+  }
+  comps.sort((a, b) => b.size - a.size);
+  const largest = comps[0], total = water || 1;
+  const lr = largest ? largest.size : 0, lb = largest ? [...largest.touches].join('/') : 'none';
   QZ.log('═══ 地图自检 ═══');
-  QZ.log('分层模型: true | terrainMap: 已删除');
-  QZ.log('water=' + water + ' 最大连通=' + largest + ' (' + (largest * 100 / total).toFixed(0) + '%) 分量数=' + comps.length);
-  QZ.log('forestOnWater=' + fow + ' highUnderWater=' + huw + ' 孤立水格=' + discon + ' 触边=' + borderSides.size + '(' + [...borderSides].join('/') + ')');
-  QZ.log('road/house: 已去除');
+  QZ.log('分层模型: true | 旧terrainMap: 已删除 | road/house: 0');
+  QZ.log('水体: ' + water + '格 最大分量=' + lr + '(' + (lr * 100 / total).toFixed(0) + '%) 分量数=' + comps.length + ' 触边=' + lb);
+  QZ.log('  孤立水格=' + isolated + ' forestOnWater=' + fow + ' highUnderWater=' + huw);
+  QZ.log('地形: high=' + (highCells * 100 / (QZ.cols * QZ.rows)).toFixed(0) + '%  forest=' + (forestCells * 100 / (QZ.cols * QZ.rows)).toFixed(0) + '%  孤立森林=' + isoForest + ' 最大森林斑块=' + largestForest);
 }
 function randomMap() { QZ.setSeed(Date.now()); QZ.generateRandomMap(); auditMap(); state.dirty = true; }
 function clearMap() { QZ.clearAll(); state.dirty = true; }

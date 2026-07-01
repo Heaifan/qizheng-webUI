@@ -26,7 +26,7 @@ function baseTerrain() {
   }
 }
 function decorate() {
-  for (let i = 0; i < 25; i++) {
+  for (let i = 0; i < 8; i++) {
     const x = RI(2, QZ.cols - 3), y = RI(2, QZ.rows - 3);
     if (QZ.getNatural(x, y) === N.grass && !QZ.getVegetation(x, y) && !QZ.isWater(x, y)) QZ.setVegetation(x, y, V.forest);
   }

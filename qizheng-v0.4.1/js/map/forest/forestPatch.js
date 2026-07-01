@@ -16,7 +16,7 @@ QZ.generateForestPatches = function(){
       if (QZ.inBounds(xx, yy) && QZ.getNatural(xx, yy) === N.grass && !QZ.isWater(xx, yy)) QZ.setVegetation(xx, yy, V.forest);
     }
   }
-  for (let i = 0; i < 20; i++) {
+  for (let i = 0; i < 5; i++) {
     const x = RI(2, QZ.cols - 3), y = RI(2, QZ.rows - 3);
     if (QZ.getNatural(x, y) === N.grass && !QZ.getVegetation(x, y) && !QZ.isWater(x, y)) QZ.setVegetation(x, y, V.forest);
   }
