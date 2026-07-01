@@ -25,9 +25,10 @@ QZ.paintAt = function(cx, cy, state) {
   for (let y = cy - half; y <= cy + half; y++) for (let x = cx - half; x <= cx + half; x++) {
     if (!QZ.inBounds(x, y) || Math.abs(x - cx) + Math.abs(y - cy) > half + 1) continue;
     setter(x, y, info.value);
-    // 清除冲突层：自然/水文写入时清植被，水文写入时也清自然(可选)
+    // 清除冲突层：自然层写入时清植被和水，水层写入时清植被
     if (info.layer === 'natural') { QZ.setVegetation(x, y, 0); QZ.setWater(x, y, 0); }
     if (info.layer === 'water') { QZ.setVegetation(x, y, 0); }
+    // 植被层写入时不清自然/水（森林可生长在草地或水边）
   }
   const readback = QZ.inBounds(cx, cy) ? ' natural='+QZ.getNatural(cx,cy)+' water='+QZ.getWater(cx,cy)+' veg='+QZ.getVegetation(cx,cy) : '';
   QZ.log('  ✓ 写入完成'+readback);
