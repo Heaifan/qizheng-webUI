@@ -1,5 +1,5 @@
 (function(){
-const QZ=window.QZ;
+const QZ = window.QZ = window.QZ || {};
 QZ.createUiState=function(){
   return{mode:'brush',terrain:QZ.Terrain.grass,brushSize:4,cellX:-1,cellY:-1,fps:0,dirty:true};
 };

@@ -1,5 +1,5 @@
 (function(){
-const QZ = window.QZ;
+const QZ = window.QZ = window.QZ || {};
 QZ.resizeCanvas = function(canvas) {
   const dpr = Math.max(1, Math.min(2, devicePixelRatio || 1));
   const w = Math.floor(canvas.clientWidth * dpr), h = Math.floor(canvas.clientHeight * dpr);

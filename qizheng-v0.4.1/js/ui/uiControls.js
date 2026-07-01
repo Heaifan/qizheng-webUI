@@ -1,5 +1,5 @@
 (function(){
-const QZ=window.QZ;
+const QZ = window.QZ = window.QZ || {};
 QZ.bindControls=function(state,actions){
   const terrainButtons=[...document.querySelectorAll('[data-terrain]')];
   const modeBtn=document.querySelector('#modeBtn');

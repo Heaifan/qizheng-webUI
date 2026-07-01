@@ -1,5 +1,5 @@
 (function(){
-const QZ = window.QZ, B = (x, y) => x >= 0 && y >= 0 && x < QZ.cols && y < QZ.rows;
+const QZ = window.QZ = window.QZ || {}, B = (x, y) => x >= 0 && y >= 0 && x < QZ.cols && y < QZ.rows;
 const A = (map, x, y, v) => { if (B(x, y)) { if (v !== undefined) map[y][x] = v; return map[y][x]; } return 0; };
 QZ.inBounds = B;
 QZ.getNatural   = (x, y) => A(QZ.naturalMap, x, y);

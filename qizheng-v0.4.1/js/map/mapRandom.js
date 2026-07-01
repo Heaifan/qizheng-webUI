@@ -1,5 +1,5 @@
 (function(){
-const QZ = window.QZ, N = QZ.Natural, V = QZ.Vegetation, B = QZ.Building;
+const QZ = window.QZ = window.QZ || {}, N = QZ.Natural, V = QZ.Vegetation, B = QZ.Building;
 const R = (a, b) => a + QZ.random() * (b - a), RI = (a, b) => Math.floor(R(a, b + 1));
 const C = (v, a, b) => Math.max(a, Math.min(b, v)), L = (a, b, t) => a + (b - a) * t;
 const T = QZ.Terrain; // 旧版兼容：stamp/line 仍用 type 字符串

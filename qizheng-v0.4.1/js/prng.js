@@ -1,5 +1,5 @@
 (function(){
-const QZ = window.QZ;
+const QZ = window.QZ = window.QZ || {};
 let _seed = Date.now();
 QZ.setSeed = function(s) { _seed = s | 0; QZ.lastSeed = _seed; };
 QZ.getSeed = function() { return _seed; };

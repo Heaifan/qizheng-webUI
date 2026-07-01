@@ -1,5 +1,5 @@
 (function(){
-const QZ = window.QZ;
+const QZ = window.QZ = window.QZ || {};
 QZ.initLayers = function(cols = 72, rows = 128) {
   QZ.cols = cols; QZ.rows = rows;
   const make = () => Array.from({ length: rows }, () => Array(cols).fill(0));

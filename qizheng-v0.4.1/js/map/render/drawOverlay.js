@@ -1,5 +1,5 @@
 (function(){
-const QZ = window.QZ;
+const QZ = window.QZ = window.QZ || {};
 QZ.drawOverlay = function(ctx, state) {
   // 网格线
   if (QZ.cellSize >= 6) {

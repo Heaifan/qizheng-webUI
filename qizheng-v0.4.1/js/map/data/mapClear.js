@@ -1,5 +1,5 @@
 (function(){
-const QZ = window.QZ, N = QZ.Natural;
+const QZ = window.QZ = window.QZ || {}, N = QZ.Natural;
 QZ.clearAll = function() {
   const cols = QZ.cols, rows = QZ.rows;
   for (let y = 0; y < rows; y++) {

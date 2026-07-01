@@ -1,5 +1,5 @@
 (function(){
-const QZ = window.QZ, N = QZ.Natural, W = QZ.Water, V = QZ.Vegetation;
+const QZ = window.QZ = window.QZ || {}, N = QZ.Natural, W = QZ.Water, V = QZ.Vegetation;
 const S = QZ.Surface, R = QZ.Road, B = QZ.Building;
 const C = {
   [N.grass]: '#9fbe77', [N.dirt]: '#c4a882', [N.high]: '#b8a067',

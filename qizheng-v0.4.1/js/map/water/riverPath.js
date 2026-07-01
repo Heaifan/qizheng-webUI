@@ -1,5 +1,5 @@
 (function(){
-const QZ = window.QZ, W = QZ.Water;
+const QZ = window.QZ = window.QZ || {}, W = QZ.Water;
 const R = (a,b) => a + QZ.random() * (b - a), RI = (a,b) => Math.floor(R(a, b + 1));
 const C = (v,a,b) => Math.max(a, Math.min(b, v)), L = (a,b,t) => a + (b - a) * t;
 function edgePt(side) {

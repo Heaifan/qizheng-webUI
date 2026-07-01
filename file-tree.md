@@ -6,6 +6,7 @@ qizheng-v0.4.1/
 ├── css/
 │   └── app.css             — 主样式，响应式布局，桌面/横屏/手机适配
 ├── js/
+│   ├── qzNamespace.js      — QZ 全局命名空间入口（脚本第一加载）
 │   ├── prng.js             — 可种子化伪随机数生成器 (LCG)，地图可复现
 │   ├── main.js             — 启动器 + 主循环 (frame loop)，初始化、绑定控件
 │   ├── map/

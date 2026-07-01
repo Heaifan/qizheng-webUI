@@ -1,5 +1,5 @@
 (function(){
-const QZ = window.QZ, N = QZ.Natural, V = QZ.Vegetation, RI = (a,b) => QZ.randomInt(a, b);
+const QZ = window.QZ = window.QZ || {}, N = QZ.Natural, V = QZ.Vegetation, RI = (a,b) => QZ.randomInt(a, b);
 QZ.generateForestPatches = function(){
   const target = RI(8, 18), centers = [];
   for (let i = 0; i < target * 15 && centers.length < target; i++) {
