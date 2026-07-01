@@ -15,9 +15,15 @@ function buildHeight(){
   }
 }
 function baseTerrain(){
-  for(let y=0;y<QZ.rows;y++)for(let x=0;x<QZ.cols;x++){
-    if(QZ.heightMap[y][x]>.72)QZ.setTerrain(x,y,T.high);
-    else QZ.setTerrain(x,y,T.grass);
+  // 按高度排序，取最高 8%~18% 为高地，避免固定阈值导致面积失控
+  const all = [];
+  for (let y = 0; y < QZ.rows; y++) for (let x = 0; x < QZ.cols; x++) all.push(QZ.heightMap[y][x]);
+  all.sort((a, b) => b - a);
+  const target = Math.floor(all.length * (0.08 + Math.random() * 0.10));
+  const threshold = all[Math.min(target, all.length - 1)];
+  for (let y = 0; y < QZ.rows; y++) for (let x = 0; x < QZ.cols; x++) {
+    if (QZ.heightMap[y][x] >= threshold) QZ.setTerrain(x, y, T.high);
+    else QZ.setTerrain(x, y, T.grass);
   }
 }
 function edgePoint(side){
