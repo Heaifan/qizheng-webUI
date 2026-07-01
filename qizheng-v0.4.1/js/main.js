@@ -13,7 +13,6 @@ function auditMap() {
   const total = QZ.cols * QZ.rows;
   let water = 0, fow = 0, huw = 0, isolated = 0;
   let isoForest = 0, largestForest = 0, highCells = 0, forestCells = 0;
-  // 全图统计（包括边界），孤立判断用 inBounds 保护
   for (let y = 0; y < QZ.rows; y++) for (let x = 0; x < QZ.cols; x++) {
     const w = QZ.getWater(x, y), n = QZ.getNatural(x, y), v = QZ.getVegetation(x, y);
     if (w) { water++; if (v) fow++; if (n === QZ.Natural.high) huw++; }
@@ -24,7 +23,6 @@ function auditMap() {
       if (noN) isoForest++;
     }
   }
-  // 水体连通分量 (全图)
   const visited = Array.from({ length: QZ.rows }, () => Array(QZ.cols).fill(0));
   const comps = [];
   for (let y = 0; y < QZ.rows; y++) for (let x = 0; x < QZ.cols; x++) {
@@ -44,7 +42,6 @@ function auditMap() {
     }
     comps.push(comp);
   }
-  // 森林连通分量 (全图)
   const fvis = Array.from({ length: QZ.rows }, () => Array(QZ.cols).fill(0));
   for (let y = 0; y < QZ.rows; y++) for (let x = 0; x < QZ.cols; x++) {
     if (!QZ.getVegetation(x, y) || fvis[y][x]) continue;
