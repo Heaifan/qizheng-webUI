@@ -1,4 +1,31 @@
-# 变更日志 — 奇正相生 qizheng-interplay
+# 变更日志 — 奇正相生 qizheng-webUI
+
+## V0.0.0.16 | 2026-07-02 17:50:00
+
+**v0.5.0-R3：布局与交互稳定性修复。** UI/布局收口，不涉及地貌笔刷或渲染算法调整：
+
+### 修复
+
+1. **地表/地貌模式切换导致地图缩放**
+   根因：`.lf` 按钮 `display:none` 从 flex 流中移除元素，面板高度变化触发 `canvasWrap(flex:1)` 重算 `cellSize`。
+   修复：`.row` 加 `min-height:33px`，按钮隐藏时行高不塌缩。
+
+2. **地图未铺满屏幕**
+   去掉 `.app` 的 `padding:10px`、`max-width:980px`、`margin:0 auto`。gap 8px→4px。Landscape/小屏媒体查询同步清理。body 底色改为地图背景 `#c8d9bd`。
+
+3. **日志消息倒序**
+   `push→unshift` / `shift→pop`，最新日志显示在最上方。
+
+### 涉及文件
+
+- `css/app.css` — 全屏布局 + 行高兜底 + 媒体查询清理
+- `js/debug.js` — 日志倒序
+
+### 后续计划
+
+qizheng-webUI v0.5.0 地貌编辑器阶段性可用，暂时收口。下一步回到 qizheng-interplay 执行 v0.6.0-T1-R1 地形数据模块。
+
+---
 
 ## V0.0.0.15 | 2026-07-02 16:18:15
 
