@@ -1,26 +1,25 @@
 (function(){
 const QZ=window.QZ=window.QZ||{},L=QZ._lf;
-// 山地 / 山脊笔刷 — gaussian 隆起
+function rect(cx,cy,r){return{minX:cx-r,minY:cy-r,maxX:cx+r,maxY:cy+r};}
+function lineRect(x1,y1,x2,y2,r){
+  return{minX:Math.min(x1,x2)-r,minY:Math.min(y1,y2)-r,maxX:Math.max(x1,x2)+r,maxY:Math.max(y1,y2)+r};
+}
 QZ.brushMountain=function(cx,cy,radius,strength){
   return L.pointStamp(cx,cy,radius,(cur,f)=>cur+f*0.22,{strength,falloff:'gaussian'});
 };
 QZ.brushMountainLine=function(x1,y1,x2,y2,radius,strength){
   return L.lineStamp(x1,y1,x2,y2,radius,(cur,f)=>cur+f*0.22,{strength,falloff:'gaussian'});
 };
-// 盆地 / 洼地笔刷 — smooth 下凹
 QZ.brushBasin=function(cx,cy,radius,strength){
   return L.pointStamp(cx,cy,radius,(cur,f)=>cur-f*0.18,{strength,falloff:'smooth'});
 };
-// 高原 / 平顶高地笔刷 — plateau falloff 向 target 抬升
 QZ.brushPlateau=function(cx,cy,radius,strength,target){
   const tgt=target||0.72;
   return L.pointStamp(cx,cy,radius,(cur,f)=>cur+(tgt-cur)*f*0.5,{strength,falloff:'plateau'});
 };
-// 山谷 / 河谷笔刷（拖线）
 QZ.brushValleyLine=function(x1,y1,x2,y2,radius,strength){
   return L.lineStamp(x1,y1,x2,y2,radius,(cur,f)=>cur-f*0.18,{strength,falloff:'gaussian'});
 };
-// 平滑笔刷 — 邻域平均
 QZ.brushSmooth=function(cx,cy,radius,strength){
   let n=0;const H=QZ.heightMap;
   for(let dy=-radius;dy<=radius;dy++)for(let dx=-radius;dx<=radius;dx++){
@@ -36,7 +35,7 @@ QZ.brushSmooth=function(cx,cy,radius,strength){
   }
   QZ._chm=null;QZ._cht=null;return n;
 };
-// 统一派发：点模式（用于 click 或 drag 的每个插值点）
+// 统一派发：点模式（携带 dirtyRect 缩小派生范围）
 QZ._applyLandformPoint=function(cx,cy,state){
   const r=Math.floor(state.brushSize/2),s=state.brushStrength||0.5,t=state.landformType;
   let n=0;
@@ -44,16 +43,16 @@ QZ._applyLandformPoint=function(cx,cy,state){
   else if(t==='basin')n=QZ.brushBasin(cx,cy,r,s);
   else if(t==='plateau')n=QZ.brushPlateau(cx,cy,r,s);
   else if(t==='smooth')n=QZ.brushSmooth(cx,cy,r,s);
-  if(n){QZ.deriveTerrain();QZ._chm=null;QZ._cht=null;}
+  if(n){QZ.deriveTerrain(rect(cx,cy,r));QZ._chm=null;QZ._cht=null;}
   return n;
 };
-// 统一派发：线段模式（用于山脊/山谷拖线）
+// 统一派发：线段模式
 QZ._applyLandformLine=function(x1,y1,x2,y2,state){
   const r=Math.floor(state.brushSize/2),s=state.brushStrength||0.5,t=state.landformType;
   let n=0;
   if(t==='mountain')n=QZ.brushMountainLine(x1,y1,x2,y2,r,s);
   else if(t==='valley')n=QZ.brushValleyLine(x1,y1,x2,y2,r,s);
-  if(n){QZ.deriveTerrain();QZ._chm=null;QZ._cht=null;}
+  if(n){QZ.deriveTerrain(lineRect(x1,y1,x2,y2,r));QZ._chm=null;QZ._cht=null;}
   return n;
 };
 })();
