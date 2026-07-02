@@ -61,3 +61,15 @@ Canvas 网格比例修复 + 文档框架建立。地图改为正方形格子居�
 - `mapRandom.js` 移除房屋/道路/线路/印章逻辑（从 77 行降至 34 行）
 - UI 按钮缩减为 草地/高地/水面/树林
 - 地图定位：自然地形 + 植被 + 水文三要素，为班组~团级推演提供比例尺无关底图
+
+## V0.0.0.10 | 2026-07-02
+
+**v0.4.3-A 等高线辅助层试验版。** 新增可开关等高线渲染层，使用简化 Marching Squares 算法对 heightMap 绘制 3 档等值线（0.45/0.60/0.75），不改变地图生成逻辑：
+
+- 新增 `js/map/render/drawContours.js` — 简化 Marching Squares，每 2×2 格插值绘制等值线短线段
+- 渲染顺序：naturalMap → shadeHigh → **contours** → waterMap → shore → vegetationMap → overlay
+- 等高线颜色：低透明淡褐灰（`rgba(92,86,58,0.18)` / `0.26` / `0.32`），不压过自然地形
+- 水体格（四角全水）跳过等高线，避免河流上出现杂线
+- UI 增加"等高线"开关按钮，默认关闭
+- 移除了 `drawOverlay.js` 中旧的等高线代码（逐格量化，非 Marching Squares）
+- 调试输出：enabled / levels / segments 计数值

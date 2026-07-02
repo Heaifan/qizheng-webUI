@@ -41,6 +41,7 @@ function drawShore(ctx) {
 QZ.renderLayers = function(ctx) {
   drawLayer(ctx, QZ.naturalMap, Cnatural); // 1. 自然地形
   shadeHigh(ctx);                           // 2. 高地阴影
+  QZ.drawContours(ctx);                     // 2b. 等高线（可开关）
   drawLayer(ctx, QZ.waterMap, Cwater);     // 3. 水文
   drawShore(ctx);                           // 3b. 水岸线
   drawLayer(ctx, QZ.vegetationMap, Cveg);  // 4. 植被

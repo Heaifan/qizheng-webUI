@@ -10,17 +10,6 @@ QZ.drawOverlay = function(ctx, state) {
     for (let y = 0; y <= QZ.rows; y += 4) { const py = oY + y * cs; ctx.beginPath(); ctx.moveTo(oX, py); ctx.lineTo(mx, py); ctx.stroke(); }
     ctx.restore();
   }
-  // 等高线（默认隐藏）
-  if (QZ.showContour && QZ.cellSize) {
-    ctx.save(); ctx.globalAlpha = .28; ctx.strokeStyle = '#705f48'; ctx.lineWidth = 1;
-    for (let y = 1; y < QZ.rows - 1; y += 2) for (let x = 1; x < QZ.cols - 1; x += 2) {
-      const h0 = QZ.heightMap[y][x], level = Math.round(h0 * 10) / 10;
-      if (Math.abs(h0 - level) > .015) continue;
-      const cx = QZ.offsetX + x * QZ.cellSize, half = .45 * QZ.cellSize;
-      ctx.beginPath(); ctx.moveTo(cx - half, QZ.offsetY + y * QZ.cellSize); ctx.lineTo(cx + half, QZ.offsetY + y * QZ.cellSize); ctx.stroke();
-    }
-    ctx.restore();
-  }
   // 游标
   if (state.cellX >= 0) {
     const r = Math.floor(state.brushSize / 2);

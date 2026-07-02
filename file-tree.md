@@ -1,4 +1,4 @@
-# 项目文件树 — 奇正相生 qizheng-interplay v0.4.2 自然战场底图版
+# 项目文件树 — 奇正相生 qizheng-interplay v0.4.3-A 等高线辅助层
 
 ```
 qizheng-v0.4.1/
@@ -16,8 +16,9 @@ qizheng-v0.4.1/
 │   │   │   ├── mapAccess.js    — 逐层 get/set 访问器 + nearLayer + eachCell
 │   │   │   └── mapClear.js     — clearAll() 清空所有图层
 │   │   ├── render/
-│   │   │   ├── drawLayers.js   — 渲染管线：4 层按序绘制 + 高地阴影
-│   │   │   └── drawOverlay.js  — 网格线 + 等高线 + 画笔游标
+│   │   │   ├── drawLayers.js   — 渲染管线：4 层按序绘制 + 高地阴影 + 等高线
+│   │   │   ├── drawOverlay.js  — 网格线 + 画笔游标
+│   │   │   └── drawContours.js — 等高线辅助层：3 档 Marching Squares 等值线
 │   │   ├── forest/
 │   │   │   └── forestPatch.js  — 森林斑块生成 (vegetationLayer)
 │   │   ├── water/

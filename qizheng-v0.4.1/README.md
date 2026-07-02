@@ -1,4 +1,4 @@
-# 奇正相生 v0.4.2 自然战场底图版
+# 奇正相生 v0.4.3-A 等高线辅助层
 
 **定位：** 自然战场底图编辑器——只负责地形、植被、水文三类自然要素，为班组~团级推演提供比例尺无关的底图。
 
@@ -20,6 +20,7 @@
 |---|---|---|
 | `naturalMap` | 草地、高地 | 1 |
 | — | 高地阴影（heightMap） | 2 |
+| — | 等高线（可开关） | 2b |
 | `waterMap` | 河流 | 3 |
 | `vegetationMap` | 森林 | 4 |
 | overlay | 网格线、游标 | 5 |
@@ -37,6 +38,7 @@ js/map/data/mapAccess.js
 js/map/data/mapClear.js
 js/map/render/drawLayers.js
 js/map/render/drawOverlay.js
+js/map/render/drawContours.js
 js/map/mapDraw.js
 js/map/mapBrush.js
 js/map/mapRandom.js

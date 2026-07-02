@@ -13,6 +13,10 @@ QZ.bindControls=function(state,actions){
   document.querySelector('#brushUp').addEventListener('click',()=>QZ.changeBrush(state,1));
   document.querySelector('#clearBtn').addEventListener('click',actions.clear);
   document.querySelector('#randomBtn').addEventListener('click',actions.random);
+  document.querySelector('#contourBtn').addEventListener('click',()=>{
+    QZ.showContour=!QZ.showContour;state.dirty=true;
+    document.querySelector('#contourBtn').textContent='等高线：'+(QZ.showContour?'开':'关');
+  });
   modeBtn.addEventListener('click',()=>{
     const mode=QZ.toggleMode(state);modeBtn.textContent=`模式：${mode==='brush'?'画笔':'查看'}`;
   });
