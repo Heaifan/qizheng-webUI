@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-  <title>奇正相生 v0.4.3-A 等高线辅助层</title>
+  <title>奇正相生 v0.5.0 地貌笔刷重构版</title>
   <link rel="stylesheet" href="./css/app.css" />
 </head>
 <body>
@@ -11,7 +11,7 @@
     <header class="topbar">
       <div>
         <strong>奇正相生</strong>
-        <span>v0.4.3-A 等高线辅助层</span>
+        <span>v0.5.0 地貌笔刷重构版</span>
       </div>
       <button id="randomBtn" class="primary">随机地图</button>
     </header>
@@ -28,6 +28,15 @@
         <button data-terrain="high">高地</button>
         <button data-terrain="water">水面</button>
         <button data-terrain="forest">树林</button>
+      </div>
+      <div class="row">
+        <label>地貌：</label>
+        <button id="landformModeBtn">地表模式</button>
+        <button data-landform="mountain" class="lf hide">山地</button>
+        <button data-landform="basin" class="lf hide">盆地</button>
+        <button data-landform="plateau" class="lf hide">高原</button>
+        <button data-landform="valley" class="lf hide">山谷</button>
+        <button data-landform="smooth" class="lf hide">平滑</button>
       </div>
       <div class="row">
         <label>操作：</label>
@@ -53,6 +62,9 @@
   <script src="./js/map/render/drawContours.js"></script>
   <script src="./js/map/render/drawRelief.js"></script>
   <script src="./js/map/mapDraw.js"></script>
+  <script src="./js/map/landform/landformCore.js"></script>
+  <script src="./js/map/landform/landformBrushes.js"></script>
+  <script src="./js/map/landform/deriveTerrain.js"></script>
   <script src="./js/map/mapBrush.js"></script>
   <script src="./js/ui/uiState.js"></script>
   <script src="./js/ui/uiControls.js"></script>

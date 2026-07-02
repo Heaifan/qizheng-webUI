@@ -98,6 +98,24 @@ Canvas 网格比例修复 + 文档框架建立。地图改为正方形格子居�
 - 修改 `mapBrush.js`：`paintAt` 调用 `QZ.autoHeight()`，每次画笔操作后同步高度
 - 修改 `mapAccess.js`：移除 `paintCell` 中水体的随机高度设置，由 stamp 统一接管
 - 修改 `main.js`：自检新增 `highCellsWithLowHeight`（high 但 h<0.60）和 `waterCellsWithHighHeight`（水但 h>0.40）诊断
+## V0.0.0.14 | 2026-07-02
+
+**v0.5.0 地貌笔刷重构版。** 从"地表颜色编辑器"重构为"地貌编辑器"，heightMap 成为地势主数据，naturalMap 改为自动派生：
+
+- 新增 `js/map/landform/` 模块（3 文件）：
+  - `landformCore.js` — 通用 stamp 引擎：falloff(linear/smooth/gaussian/plateau)、点到线段距离、圆形/线段 stamp
+  - `landformBrushes.js` — 5 种地貌笔刷：
+    - **山地** — gaussian 隆起，单击山丘 / 拖线山脊
+    - **盆地** — smooth 下凹，点状凹地
+    - **高原** — plateau 抬升，平顶高地
+    - **山谷** — gaussian 下切，拖线谷地
+    - **平滑** — 邻域平均，柔化边缘
+  - `deriveTerrain.js` — 根据 heightMap 自动派生 naturalMap（12% 最高→high、20% 最低→dirt、其余→grass）
+- 修改 `mapBrush.js`：新增地貌笔刷模式，山地/山谷拖线时自动插值线段 stamp
+- 新增 `brushMode` / `landformType` / `brushStrength` / `_lx/_ly` 状态
+- UI 新增"地貌/地表"模式切换 + 5 种地貌按钮（自动显示/隐藏）
+- 所有地貌笔刷自动更新 heightMap → 自动重算 naturalMap / 等高线 / 坡影 / 底色
+- 旧地形笔刷（草地/高地/水面/树林）保留为地表模式
 - 画笔规则：
   - 画高地 → heightMap 向 0.78 圆形抬高
   - 画草地 → heightMap 向 0.48 圆形回落

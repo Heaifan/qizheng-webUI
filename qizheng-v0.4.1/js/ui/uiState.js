@@ -1,7 +1,8 @@
 (function(){
 const QZ = window.QZ = window.QZ || {};
 QZ.createUiState=function(){
-  return{mode:'brush',terrain:QZ.Terrain.grass,brushSize:4,cellX:-1,cellY:-1,fps:0,dirty:true};
+  return{mode:'brush',brushMode:'terrain',landformType:'mountain',brushStrength:0.5,
+    terrain:QZ.Terrain.grass,brushSize:4,cellX:-1,cellY:-1,fps:0,dirty:true,_lx:-1,_ly:-1};
 };
 QZ.setTerrainType=function(state,type){state.terrain=type;state.dirty=true;};
 QZ.toggleMode=function(state){

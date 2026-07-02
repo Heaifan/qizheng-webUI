@@ -15,6 +15,14 @@ QZ.canvasToCell = function(canvas, ev) {
   return { x, y };
 };
 QZ.paintAt = function(cx, cy, state) {
+  // 地貌笔刷模式
+  if(state.brushMode==='landform'){
+    if(state._lx>=0&&(state.landformType==='mountain'||state.landformType==='valley')){
+      QZ._applyLandformLine(state._lx,state._ly,cx,cy,state);
+    }else{QZ._applyLandformPoint(cx,cy,state);}
+    state._lx=cx;state._ly=cy;state.dirty=true;return;
+  }
+  // 传统地形笔刷
   const half = Math.floor(state.brushSize / 2);
   const painted = QZ.paintTerrainStamp(cx, cy, state.terrain, half);
   QZ.log('画笔@('+cx+','+cy+') '+state.terrain+' x'+painted+'格  natural='+QZ.getNatural(cx,cy)+' water='+QZ.getWater(cx,cy)+' veg='+QZ.getVegetation(cx,cy)+' h='+QZ.getHeight(cx,cy).toFixed(2));
@@ -30,7 +38,7 @@ QZ.bindBrushEvents = function(canvas, state) {
   };
   canvas.addEventListener('pointerdown', ev => { down = true; canvas.setPointerCapture?.(ev.pointerId); move(ev); });
   canvas.addEventListener('pointermove', move);
-  canvas.addEventListener('pointerup', ev => { down = false; canvas.releasePointerCapture?.(ev.pointerId); });
+  canvas.addEventListener('pointerup', ev => { down = false; state._lx = -1; canvas.releasePointerCapture?.(ev.pointerId); });
   canvas.addEventListener('pointercancel', () => { down = false; });
   canvas.addEventListener('pointerleave', () => QZ.setPointerCell(state, -1, -1));
 };

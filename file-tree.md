@@ -1,4 +1,4 @@
-# 项目文件树 — 奇正相生 qizheng-interplay v0.4.3-G 手绘地形与高度图同步
+# 项目文件树 — 奇正相生 qizheng-interplay v0.5.0 地貌笔刷重构版
 
 ```
 qizheng-v0.4.1/
@@ -25,6 +25,10 @@ qizheng-v0.4.1/
 │   │   │   └── forestPatch.js  — 森林斑块生成 (vegetationLayer)
 │   │   ├── water/
 │   │   │   └── riverPath.js    — 河流平滑生成 (waterLayer)
+│   │   ├── landform/
+│   │   │   ├── landformCore.js    — 地貌笔刷核心：falloff / 距离 / stamp
+│   │   │   ├── landformBrushes.js — 5 种地貌笔刷：山地/盆地/高原/山谷/平滑
+│   │   │   └── deriveTerrain.js   — 根据 heightMap 自动派生 naturalMap
 │   │   ├── mapBrush.js     — 画笔交互：pointer→格子、分层写入、事件绑定
 │   │   ├── mapDraw.js      — 渲染编排：resizeCanvas + computeCellLayout + drawMap
 │   │   └── mapRandom.js    — 随机地图生成：高度图/高地/河流/森林/装饰
