@@ -7,5 +7,6 @@ QZ.clearAll = function() {
     QZ.vegetationMap[y].fill(0);
     QZ.heightMap[y].fill(0.45);
   }
+  QZ._chm = null; QZ._cht = null;
 };
 })();

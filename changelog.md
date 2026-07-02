@@ -103,3 +103,17 @@ Canvas 网格比例修复 + 文档框架建立。地图改为正方形格子居�
   - 画草地 → heightMap 向 0.48 圆形回落
   - 画水面 → heightMap 向 0.30 圆形下切
   - 画树林 → 不修改 heightMap
+
+## V0.0.0.13 | 2026-07-02
+
+**v0.4.3-H 随机生成与高度图同步收口。** 审计全部写图入口，将随机生成的河流/水体高度下切到正确范围，建立统一语义写入入口 `paintTerrainStamp`：
+
+- 新增 `heightEdit.js` 功能：
+  - `lowerHeightIfHigh()` — 只降低高处(>0.55)，平坦区域不压，解决草地笔误伤坡地
+  - `paintTerrainStamp(cx, cy, terrain, half)` — 统一画笔入口：图层写入 + 高度同步
+  - `syncWaterHeights()` — 后处理：扫描所有水体，将高度下切到 0.26~0.35
+- 修改 `mapBrush.js`：`paintAt` 改为调用 `paintTerrainStamp`（统一入口），不再手写循环
+- 修改 `mapClear.js`：`clearAll` 中清除等高线缓存 `_chm/_cht`
+- 修改 `mapRandom.js`：`generateRandomMap` 中河流生成后调用 `syncWaterHeights()`
+- 全部写图入口审计表（见提交报告）
+- 随机地图后自检 `hiLow` / `wHigh` 预期接近 0

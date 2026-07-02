@@ -5,6 +5,7 @@ const C = (v, a, b) => Math.max(a, Math.min(b, v));
 QZ.generateRandomMap = function() {
   QZ.clearAll(); buildHeight(); baseTerrain();
   const river = QZ.generateRiver(); QZ.generateForestPatches(); decorate();
+  QZ.syncWaterHeights(); // 河流生成后将水体高度下切
   return { river };
 };
 function buildHeight() {

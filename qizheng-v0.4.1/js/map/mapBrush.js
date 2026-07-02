@@ -16,12 +16,8 @@ QZ.canvasToCell = function(canvas, ev) {
 };
 QZ.paintAt = function(cx, cy, state) {
   const half = Math.floor(state.brushSize / 2);
-  let painted = 0;
-  for (let y = cy - half; y <= cy + half; y++) for (let x = cx - half; x <= cx + half; x++) {
-    if (Math.abs(x - cx) + Math.abs(y - cy) <= half + 1) { QZ.paintCell(x, y, state.terrain); painted++; }
-  }
-  const hm = QZ.autoHeight(cx, cy, half, state.terrain);
-  QZ.log('画笔@('+cx+','+cy+') '+state.terrain+' x'+painted+'格  hMod='+hm+' natural='+QZ.getNatural(cx,cy)+' water='+QZ.getWater(cx,cy)+' veg='+QZ.getVegetation(cx,cy)+' h='+QZ.getHeight(cx,cy).toFixed(2));
+  const painted = QZ.paintTerrainStamp(cx, cy, state.terrain, half);
+  QZ.log('画笔@('+cx+','+cy+') '+state.terrain+' x'+painted+'格  natural='+QZ.getNatural(cx,cy)+' water='+QZ.getWater(cx,cy)+' veg='+QZ.getVegetation(cx,cy)+' h='+QZ.getHeight(cx,cy).toFixed(2));
   state.dirty = true;
 };
 QZ.bindBrushEvents = function(canvas, state) {
