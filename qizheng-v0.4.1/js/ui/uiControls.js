@@ -36,6 +36,10 @@ QZ.bindControls=function(state,actions){
     QZ.showContour=!QZ.showContour;QZ._contourLogNeeded=true;state.dirty=true;
     document.querySelector('#contourBtn').textContent='等高线：'+(QZ.showContour?'开':'关');
   });
+  document.querySelector('#gridBtn').addEventListener('click',()=>{
+    QZ.showGrid=!QZ.showGrid;state.dirty=true;
+    $('#gridBtn').textContent='网格：'+(QZ.showGrid?'开':'关');
+  });
   const modeBtn=document.querySelector('#modeBtn');
   modeBtn.addEventListener('click',()=>{
     const mode=QZ.toggleMode(state);modeBtn.textContent=`模式：${mode==='brush'?'画笔':'查看'}`;

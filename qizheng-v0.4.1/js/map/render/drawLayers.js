@@ -38,11 +38,31 @@ function drawShore(ctx) {
   }
   ctx.restore();
 }
+// 自适应弱网格：在水体/植被之下，等高线之上
+function drawGrid(ctx) {
+  if (!QZ.showGrid) return;
+  const cs = QZ.cellSize, oX = QZ.offsetX, oY = QZ.offsetY;
+  if (cs < 3) return; // 格子太小，隐藏全部网格
+  const mx = oX + QZ.cols * cs, my = oY + QZ.rows * cs;
+  ctx.save();
+  if (cs >= 5) {
+    // 细网格（每 1 格） — 极淡，仅辅助定位
+    ctx.strokeStyle = 'rgba(50,65,45,0.05)'; ctx.lineWidth = 0.5;
+    for (let x = 1; x < QZ.cols; x++) { const px = oX + x * cs; ctx.beginPath(); ctx.moveTo(px, oY); ctx.lineTo(px, my); ctx.stroke(); }
+    for (let y = 1; y < QZ.rows; y++) { const py = oY + y * cs; ctx.beginPath(); ctx.moveTo(oX, py); ctx.lineTo(mx, py); ctx.stroke(); }
+  }
+  // 主网格（每 4 格） — 轻量可见
+  ctx.strokeStyle = 'rgba(50,65,45,0.10)'; ctx.lineWidth = 0.8;
+  for (let x = 0; x <= QZ.cols; x += 4) { const px = oX + x * cs; ctx.beginPath(); ctx.moveTo(px, oY); ctx.lineTo(px, my); ctx.stroke(); }
+  for (let y = 0; y <= QZ.rows; y += 4) { const py = oY + y * cs; ctx.beginPath(); ctx.moveTo(oX, py); ctx.lineTo(mx, py); ctx.stroke(); }
+  ctx.restore();
+}
 QZ.renderLayers = function(ctx) {
   drawLayer(ctx, QZ.naturalMap, Cnatural); // 1. 自然地形
   shadeHigh(ctx);                           // 2. 高地阴影
   QZ.drawRelief(ctx);                       // 2b. 地势底色+坡影
-  QZ.drawContours(ctx);                     // 2c. 等高线（可开关）
+  drawGrid(ctx);                            // 2c. 弱网格（水体/植被之下）
+  QZ.drawContours(ctx);                     // 2d. 等高线
   drawLayer(ctx, QZ.waterMap, Cwater);     // 3. 水文
   drawShore(ctx);                           // 3b. 水岸线
   drawLayer(ctx, QZ.vegetationMap, Cveg);  // 4. 植被
