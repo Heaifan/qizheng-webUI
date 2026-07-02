@@ -11,12 +11,13 @@ function refreshStatus() {
 function auditMap() {
   if (!QZ.log) return;
   const total = QZ.cols * QZ.rows;
-  let water = 0, fow = 0, huw = 0, isolated = 0;
+  let water = 0, fow = 0, huw = 0, isolated = 0, highLow = 0, waterHigh = 0;
   let isoForest = 0, largestForest = 0, highCells = 0, forestCells = 0;
   for (let y = 0; y < QZ.rows; y++) for (let x = 0; x < QZ.cols; x++) {
     const w = QZ.getWater(x, y), n = QZ.getNatural(x, y), v = QZ.getVegetation(x, y);
     if (w) { water++; if (v) fow++; if (n === QZ.Natural.high) huw++; }
-    if (n === QZ.Natural.high) highCells++;
+    if (n === QZ.Natural.high) { highCells++; if (QZ.getHeight(x, y) < 0.60) highLow++; }
+    if (w && QZ.getHeight(x, y) > 0.40) waterHigh++;
     if (v) forestCells++;
     if (v) {
       const noN = !QZ.getVegetation(x - 1, y) && !QZ.getVegetation(x + 1, y) && !QZ.getVegetation(x, y - 1) && !QZ.getVegetation(x, y + 1);
@@ -66,7 +67,7 @@ function auditMap() {
   QZ.log('旧terrainMap=' + legacyMap + ' | ' + legacyCheck);
   QZ.log('水体: ' + water + '格 最大=' + lr + '(' + (lr * 100 / wr).toFixed(0) + '%) 分量=' + comps.length + ' 触边=' + lb);
   QZ.log('  孤立=' + isolated + ' fow=' + fow + ' huw=' + huw);
-  QZ.log('地形: high=' + (highCells * 100 / total).toFixed(0) + '%  forest=' + (forestCells * 100 / total).toFixed(0) + '%  孤立森林=' + isoForest + ' 最大斑块=' + largestForest + '(' + lfr + '%)');
+  QZ.log('地形: high=' + (highCells * 100 / total).toFixed(0) + '%  forest=' + (forestCells * 100 / total).toFixed(0) + '%  孤立森林=' + isoForest + ' 最大斑块=' + largestForest + '(' + lfr + '%)  hiLow=' + highLow + ' wHigh=' + waterHigh);
 }
 function randomMap() { QZ.setSeed(Date.now()); QZ.generateRandomMap(); QZ._contourLogNeeded = true; auditMap(); state.dirty = true; }
 function clearMap() { QZ.clearAll(); state.dirty = true; }

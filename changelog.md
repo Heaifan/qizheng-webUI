@@ -85,3 +85,21 @@ Canvas 网格比例修复 + 文档框架建立。地图改为正方形格子居�
 - 日志增加 reliefTint / slopeShade / highEdge 状态
 - B~E 轮迭代持续改进保留：box blur 平滑 / 动态档位 / 主副线 / 高地感知 / 日志节流
 - 地貌仍由 waterMap / vegetationMap 自然覆盖
+
+## V0.0.0.12 | 2026-07-02
+
+**v0.4.3-G 手绘地形与高度图同步。** 让画笔修改地形时同步修改 heightMap，使等高线/坡度阴影/高度底色跟随实际高度变化：
+
+- 新增 `js/map/data/heightEdit.js` — 圆形 falloff 高度编辑工具：
+  - `raiseHeight(cx, cy, radius, targetH)` — 向目标高度柔和抬高
+  - `lowerHeight(cx, cy, radius, targetH)` — 向目标高度柔和降低
+  - `autoHeight(cx, cy, radius, terrain)` — 根据地类自动选择高度修改
+  - 修改后自动清除等高线缓存（`QZ._chm = null`），下次渲染重算
+- 修改 `mapBrush.js`：`paintAt` 调用 `QZ.autoHeight()`，每次画笔操作后同步高度
+- 修改 `mapAccess.js`：移除 `paintCell` 中水体的随机高度设置，由 stamp 统一接管
+- 修改 `main.js`：自检新增 `highCellsWithLowHeight`（high 但 h<0.60）和 `waterCellsWithHighHeight`（水但 h>0.40）诊断
+- 画笔规则：
+  - 画高地 → heightMap 向 0.78 圆形抬高
+  - 画草地 → heightMap 向 0.48 圆形回落
+  - 画水面 → heightMap 向 0.30 圆形下切
+  - 画树林 → 不修改 heightMap

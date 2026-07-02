@@ -1,4 +1,4 @@
-# 项目文件树 — 奇正相生 qizheng-interplay v0.4.3-F 地势表达修复
+# 项目文件树 — 奇正相生 qizheng-interplay v0.4.3-G 手绘地形与高度图同步
 
 ```
 qizheng-v0.4.1/
@@ -14,6 +14,7 @@ qizheng-v0.4.1/
 │   │   │   ├── mapConstants.js — 图层枚举常量 (Natural/Water/Vegetation)
 │   │   │   ├── mapLayers.js    — 3 层 + heightMap 数组初始化
 │   │   │   ├── mapAccess.js    — 逐层 get/set 访问器 + nearLayer + eachCell
+│   │   │   ├── heightEdit.js   — 手绘高度同步：圆形 falloff stamp / autoHeight
 │   │   │   └── mapClear.js     — clearAll() 清空所有图层
 │   │   ├── render/
 │   │   │   ├── drawLayers.js   — 渲染管线：5 层按序绘制 + 高地阴影 + 地势底色/坡影 + 等高线
