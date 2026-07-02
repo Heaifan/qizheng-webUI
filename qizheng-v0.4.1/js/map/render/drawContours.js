@@ -5,9 +5,9 @@ function drawLevel(ctx, level, color, oX, oY, cs) {
   let seg = 0;
   ctx.strokeStyle = color;
   const H = QZ.heightMap, rows = QZ.rows, cols = QZ.cols;
-  // 四边定义：[x1,y1,x2,y2] — top, right, bottom, left
   for (let y = 0; y < rows - 1; y++) for (let x = 0; x < cols - 1; x++) {
-    if (QZ.getWater(x,y) && QZ.getWater(x+1,y) && QZ.getWater(x,y+1) && QZ.getWater(x+1,y+1)) continue;
+    // 2×2 四角任意一个是水即跳过，河岸更干净
+    if (QZ.getWater(x,y) || QZ.getWater(x+1,y) || QZ.getWater(x,y+1) || QZ.getWater(x+1,y+1)) continue;
     const tl = H[y][x] >= level, tr = H[y][x+1] >= level;
     const bl = H[y+1][x] >= level, br = H[y+1][x+1] >= level;
     const code = (tl << 3) | (tr << 2) | (bl << 1) | br;
@@ -34,10 +34,15 @@ QZ.drawContours = function(ctx) {
   ctx.save(); ctx.lineWidth = 0.8;
   const oX = QZ.offsetX, oY = QZ.offsetY, cs = QZ.cellSize;
   let total = 0;
-  total += drawLevel(ctx, 0.45, 'rgba(92,86,58,0.18)', oX, oY, cs);
-  total += drawLevel(ctx, 0.60, 'rgba(80,72,48,0.26)', oX, oY, cs);
-  total += drawLevel(ctx, 0.75, 'rgba(70,60,40,0.32)', oX, oY, cs);
+  total += drawLevel(ctx, 0.55, 'rgba(92,86,58,0.18)', oX, oY, cs);
+  total += drawLevel(ctx, 0.68, 'rgba(80,72,48,0.26)', oX, oY, cs);
+  total += drawLevel(ctx, 0.80, 'rgba(70,60,40,0.32)', oX, oY, cs);
   ctx.restore();
-  QZ.log('等高线: enabled=' + QZ.showContour + ' levels=[0.45,0.60,0.75] segments=' + total);
+  // 日志节流：只在 _contourLogNeeded 标志为 true 时输出一次
+  if (QZ._contourLogNeeded) {
+    const dense = total > 1800 ? ' | 偏密(>1800)' : '';
+    QZ.log('等高线: enabled=' + QZ.showContour + ' levels=[0.55,0.68,0.80] segments=' + total + dense);
+    QZ._contourLogNeeded = false;
+  }
 };
 })();

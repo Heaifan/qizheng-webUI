@@ -14,7 +14,7 @@ QZ.bindControls=function(state,actions){
   document.querySelector('#clearBtn').addEventListener('click',actions.clear);
   document.querySelector('#randomBtn').addEventListener('click',actions.random);
   document.querySelector('#contourBtn').addEventListener('click',()=>{
-    QZ.showContour=!QZ.showContour;state.dirty=true;
+    QZ.showContour=!QZ.showContour;QZ._contourLogNeeded=true;state.dirty=true;
     document.querySelector('#contourBtn').textContent='等高线：'+(QZ.showContour?'开':'关');
   });
   modeBtn.addEventListener('click',()=>{

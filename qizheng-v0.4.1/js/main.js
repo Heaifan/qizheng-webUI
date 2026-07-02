@@ -68,7 +68,7 @@ function auditMap() {
   QZ.log('  孤立=' + isolated + ' fow=' + fow + ' huw=' + huw);
   QZ.log('地形: high=' + (highCells * 100 / total).toFixed(0) + '%  forest=' + (forestCells * 100 / total).toFixed(0) + '%  孤立森林=' + isoForest + ' 最大斑块=' + largestForest + '(' + lfr + '%)');
 }
-function randomMap() { QZ.setSeed(Date.now()); QZ.generateRandomMap(); auditMap(); state.dirty = true; }
+function randomMap() { QZ.setSeed(Date.now()); QZ.generateRandomMap(); QZ._contourLogNeeded = true; auditMap(); state.dirty = true; }
 function clearMap() { QZ.clearAll(); state.dirty = true; }
 function frame(now) {
   QZ.updateFps(state, now);
