@@ -12,8 +12,8 @@ document.body.appendChild(el);
 const logs = [];
 QZ.log = function(msg) {
   const t = new Date().toLocaleTimeString();
-  logs.push('[' + t + '] ' + msg);
-  if (logs.length > 30) logs.shift();
+  logs.unshift('[' + t + '] ' + msg);
+  if (logs.length > 30) logs.pop();
   el.textContent = logs.join('\n');
   console.log('[探针] ' + msg);
 };
