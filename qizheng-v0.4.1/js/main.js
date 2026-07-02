@@ -88,7 +88,7 @@ function selfCheck() {
 }
 function boot() {
   if (!selfCheck()) return;
-  QZ.initLayers(); QZ.showContour = false; QZ.setSeed(Date.now());
+  QZ.initLayers(); QZ.showContour = false; QZ.showHighEdge = false; QZ.setSeed(Date.now());
   QZ.bindControls(state, { random: randomMap, clear: clearMap });
   QZ.bindBrushEvents(canvas, state); randomMap();
   loading.classList.add('hide'); requestAnimationFrame(frame);

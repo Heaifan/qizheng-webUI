@@ -1,4 +1,4 @@
-# 项目文件树 — 奇正相生 qizheng-interplay v0.4.3-A 等高线辅助层
+# 项目文件树 — 奇正相生 qizheng-interplay v0.4.3-F 地势表达修复
 
 ```
 qizheng-v0.4.1/
@@ -16,9 +16,10 @@ qizheng-v0.4.1/
 │   │   │   ├── mapAccess.js    — 逐层 get/set 访问器 + nearLayer + eachCell
 │   │   │   └── mapClear.js     — clearAll() 清空所有图层
 │   │   ├── render/
-│   │   │   ├── drawLayers.js   — 渲染管线：4 层按序绘制 + 高地阴影 + 等高线
+│   │   │   ├── drawLayers.js   — 渲染管线：5 层按序绘制 + 高地阴影 + 地势底色/坡影 + 等高线
 │   │   │   ├── drawOverlay.js  — 网格线 + 画笔游标
-│   │   │   └── drawContours.js — 等高线辅助层：3 档 Marching Squares 等值线
+│   │   │   ├── drawContours.js — 等高线辅助层：6 档动态 Marching Squares 等值线
+│   │   │   └── drawRelief.js   — 地势底色 + 坡度阴影：低处冷暗/高处暖亮/坡面阴影
 │   │   ├── forest/
 │   │   │   └── forestPatch.js  — 森林斑块生成 (vegetationLayer)
 │   │   ├── water/

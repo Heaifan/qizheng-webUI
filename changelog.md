@@ -73,3 +73,15 @@ Canvas 网格比例修复 + 文档框架建立。地图改为正方形格子居�
 - UI 增加"等高线"开关按钮，默认关闭
 - 移除了 `drawOverlay.js` 中旧的等高线代码（逐格量化，非 Marching Squares）
 - 调试输出：enabled / levels / segments 计数值
+
+## V0.0.0.11 | 2026-07-02
+
+**v0.4.3-F 地势表达重构。** 将"等高线单一表达"拆为"高度底色 + 坡度阴影 + 等高线"三层体系，让 heightMap 成为地势表达核心：
+
+- 新增 `js/map/render/drawRelief.js` — 高度底色（低处冷暗/高处暖亮）+ 坡度阴影（基于高度梯度估算坡面）
+- 渲染顺序：naturalMap → shadeHigh → **drawRelief** → contours → waterMap → shore → vegetationMap → overlay
+- 高度底色 alpha 0.015~0.10，坡度阴影阈值 0.025，alpha ≤ 0.08 — 两者极为克制，只提供微妙指示
+- `drawHighEdge()` 默认关闭（`QZ.showHighEdge = false`），避免 naturalMap 分类边界被误认为等高线
+- 日志增加 reliefTint / slopeShade / highEdge 状态
+- B~E 轮迭代持续改进保留：box blur 平滑 / 动态档位 / 主副线 / 高地感知 / 日志节流
+- 地貌仍由 waterMap / vegetationMap 自然覆盖

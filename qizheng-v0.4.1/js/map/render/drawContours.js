@@ -84,11 +84,13 @@ QZ.drawContours=function(ctx){
   const S=[{lw:.45,a:.14},{lw:.85,a:.26},{lw:.45,a:.14},{lw:.85,a:.28},{lw:.45,a:.16},{lw:1,a:.34}];
   let ts=0,tk=0;
   for(let i=0;i<6;i++){const r=drawLevel(ctx,lvls[i],'rgba(80,72,48,'+S[i].a+')',S[i].lw,oX,oY,cs,CH,bt,ht);ts+=r.seg;tk+=r.skip;}
-  const es=drawHighEdge(ctx,oX,oY,cs);ctx.restore();
+  const es=QZ.showHighEdge?drawHighEdge(ctx,oX,oY,cs):0;ctx.restore();
   if(QZ._contourLogNeeded){
+    const rs=QZ._reliefStats||{},m=lvls.filter((_,i)=>i%2===1);
     QZ.log('等高线: enabled='+QZ.showContour+' mode=smooth-linked passes=2'+
-      ' levels=['+lvls.join(',')+'] major=['+lvls.filter((_,i)=>i%2===1).join(',')+']'+
-      ' bt='+bt.toFixed(3)+' ht='+ht.toFixed(3)+' seg='+ts+' skip='+tk+' edge='+es);
+      ' levels=['+lvls.join(',')+'] major=['+m.join(',')+']'+
+      ' bt='+bt.toFixed(3)+' ht='+ht.toFixed(3)+' seg='+ts+' skip='+tk+' edge='+es+
+      ' reliefTint='+(rs.tint||0)+' slopeShade='+(rs.slope||0)+' highEdge='+(QZ.showHighEdge?'on':'off'));
     QZ._contourLogNeeded=false;
   }
 };
