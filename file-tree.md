@@ -1,4 +1,4 @@
-# 项目文件树 — 奇正相生 qizheng-webUI v0.5.0-R3 布局与交互稳定性修复
+# 项目文件树 — 奇正相生 qizheng-webUI v0.6.0 地貌编辑器
 
 ```
 qizheng-v0.4.1/
