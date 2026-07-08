@@ -1,33 +1,30 @@
 * { box-sizing: border-box; }
 html, body { margin: 0; height: 100%; overflow: hidden; }
 body { font-family: system-ui, "Microsoft YaHei", sans-serif; background: #0d1420; color: #f7fbff; }
-.app { height: 100dvh; display: flex; flex-direction: column; background: #111a27; }
+
+#app { height: 100dvh; display: flex; flex-direction: column; background: #111a27; }
+
 .topbar { min-height: 58px; padding: 10px 14px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid #2b3a4d; background: #172232; }
-.title { font-size: 22px; font-weight: 900; white-space: nowrap; letter-spacing: .5px; }
+.brand { font-size: 22px; font-weight: 900; white-space: nowrap; letter-spacing: .5px; }
 .status { margin-left: auto; font-size: 13px; font-weight: 700; color: #e7f1ff; text-align: right; line-height: 1.5; }
-.main { flex: 1; min-height: 0; display: grid; background: #0c131c; }
-.canvasWrap { min-width: 0; min-height: 0; overflow: hidden; background: #0d1520; }
+
+.canvas-wrap { flex: 1; min-height: 0; display: flex; background: #0c131c; overflow: hidden; }
 #gameCanvas { width: 100%; height: 100%; display: block; touch-action: none; cursor: crosshair; }
-.panel { background: #172232; border-color: #2b3a4d; }
-.group { padding: 10px; border-bottom: 1px solid #2b3a4d; }
-.groupTitle { color: #9fc4ff; font-size: 13px; margin-bottom: 8px; }
-.btnGrid { display: grid; gap: 8px; }
+
+.toolbar { flex-shrink: 0; padding: 10px 14px; display: flex; gap: 18px; border-top: 1px solid #2b3a4d; background: #172232; }
+.toolbar section { flex: 1; min-width: 0; }
+.section-title { color: #9fc4ff; font-size: 13px; margin-bottom: 8px; }
+
+.button-row { display: grid; gap: 8px; grid-template-columns: repeat(auto-fill, minmax(76px, 1fr)); }
+
 button { min-height: 44px; border-radius: 12px; border: 1px solid #7f91aa; background: #243246; color: #f7fbff; font-size: 16px; font-weight: 800; }
 button.active { border-color: #ffc84d; box-shadow: inset 0 0 0 2px #ffc84d; background: #30415b; }
-.dot { display: inline-block; width: 12px; height: 12px; margin-right: 8px; border-radius: 4px; vertical-align: -1px; }
-@media (orientation: portrait) {
-  .main { grid-template-rows: minmax(0, 1fr) auto; }
-  .panel { border-top: 1px solid #2b3a4d; }
-  .btnGrid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  .status { font-size: 12px; }
-}
-@media (orientation: landscape) {
-  .main { grid-template-columns: minmax(0, 1fr) 260px; }
-  .panel { border-left: 1px solid #2b3a4d; overflow: auto; }
-  .btnGrid { grid-template-columns: 1fr; }
-}
-@media (max-width: 420px) {
+
+.terrain-dot { display: inline-block; width: 12px; height: 12px; margin-right: 8px; border-radius: 4px; vertical-align: -1px; }
+
+@media (max-width: 560px) {
   .topbar { align-items: flex-start; flex-direction: column; gap: 4px; }
   .status { margin-left: 0; text-align: left; }
+  .toolbar { flex-direction: column; gap: 12px; }
   button { font-size: 15px; min-height: 42px; }
 }

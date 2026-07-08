@@ -4,7 +4,7 @@
 
 ## 根
 - index.html —— 页面骨架，14 个 <script> 按序加载，无模块化
-- style.css —— 样式（当前与 index.html class 未对齐，R2 修）
+- style.css —— 样式，已对齐 index.html（#app / .brand / .canvas-wrap / .toolbar / .section-title / .button-row / .terrain-dot）
 - run-local.bat —— 启动本地服务器 (python -m http.server 8080)
 - README.md —— 项目说明
 - file-tree.md —— 本文件

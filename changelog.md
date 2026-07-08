@@ -12,3 +12,12 @@
   - P0：index.html 与 style.css class 名不匹配，样式大面积失效
   - P1：QZ.fuc_getLayoutName 在 uiLayout.js / uiText.js 重复定义
   - P2：拖图模式格坐标显示不更新
+
+## v0.3.0-R2 (2026-07-08) —— 首屏布局修复 (P0)
+- 以 index.html（header/main/footer 垂直结构）为准重写 style.css，修复 class 名不匹配
+  - `.app`→`#app`、`.title`→`.brand`、`.main`+`.canvasWrap`→`.canvas-wrap`(加 flex:1 撑高)、`.groupTitle`→`.section-title`、`.btnGrid`→`.button-row`、`.dot`→`.terrain-dot`
+  - 删除无效的 `.panel`/`.group` 侧栏方案
+  - 新增 `.toolbar`（footer 容器）+ 媒体查询（窄屏 ≤560px 转 column，防挤压）
+- 结果：Canvas 不再塌陷；手机竖屏 / 电脑横屏均正常；按钮与地形色点样式生效；无横向溢出
+- 未改动 index.html 与任何 JS（渲染 / 地图逻辑不动）
+- 关闭 P0；P1/P2 留待 R3/R4

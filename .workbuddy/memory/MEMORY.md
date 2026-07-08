@@ -18,7 +18,7 @@
 - P2：拖图模式 lastCell/lastPaintCell 不更新，格坐标显示停在旧值。体验问题，后修。
 
 ## 推进路线 R1/R2/R3
-- R1 新版本基线：git init / 接 GitHub 远程 + 新增 file-tree.md + 新增 changelog.md + 记录为纯 HTML 线
+- R1 新版本基线：【已收口】git init + 接 GitHub 远程(SSH) + file-tree.md + changelog.md + README 补注 + tag v0.3.0-R1（commit 9952b6）+ 已 `git push -u origin main --tags` 上远程成功（沙箱复用本机 id_ed25519 经 SSH 自动推送）。
 - R2 首屏布局：以 index.html 为准改 style.css，不大改 JS，保证手机竖屏/电脑横屏，Canvas 不塌陷
 - R3 状态与交互：合并 getLayoutName、删重复、修拖图格信息、手机端触屏测试
 - 原则：先给计划不直接改代码；单文件 ≤100 行，超则拆分
@@ -27,3 +27,4 @@
 - 单文件 ≤100 行；单目录核心文件 ≤5 个；SRP；禁用 Manager/Helper/Utils 命名
 - 每次改动 commit + push
 - 磁盘目录名：qi-zheng-interplay（连字符）
+- **Git 凭证红线**：绝不索要/接收 Token/PAT 等明文凭证；但沙箱复用用户本机已有 SSH 密钥（~/.ssh/id_ed25519，已配 GitHub）经 SSH 协议自动 push 是允许的（用户要求"自动 push 不要每次手动"）。
