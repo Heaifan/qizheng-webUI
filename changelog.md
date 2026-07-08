@@ -1,5 +1,38 @@
 # 变更日志 — 奇正相生 qizheng-webUI
 
+## V0.0.0.17 | 2026-07-08 15:13:18
+
+**v0.6.0-R1 文档收口补丁。** 只修正文档与结构说明，使项目说明与真实代码一致，不新增功能，不改地图生成算法，不改渲染效果。
+
+### 修改
+
+1. **README 版本落后**：标题从 v0.4.3-F 更新为 v0.6.0；定位改为"自然战场地貌编辑器原型"；补充地貌编辑器（5 种地貌笔刷）功能说明；渲染顺序表按 `drawLayers.js` 实际顺序重写（弱网格移至水体之下、等高线之前；补 drawShore 水岸线）；目录补全 23 个 JS 文件含 `debug.js` / `heightEdit.js` / `landform/*`。
+2. **file-tree.md 缺 debug.js**：补入 `js/debug.js`；各模块职责描述与实际代码核对（`paintTerrainStamp`/`syncWaterHeights` 归 `heightEdit.js`，`paintCell` 归 `mapAccess.js`）；新增渲染管线表；标注 `css/app.css` 为压缩单行格式。
+3. **渲染顺序文档与代码不同步**：按 `drawLayers.js` 实际 `renderLayers` 顺序重写（naturalMap → shadeHigh → drawRelief → drawGrid → drawContours → waterMap → drawShore → vegetationMap → overlay）。
+
+### 涉及文件
+
+- `qizheng-v0.4.1/README.md` — 版本/定位/渲染顺序/目录全面更新
+- `file-tree.md`（顶层）— 补 debug.js + 渲染管线表 + 模块职责核对 + 文档位置说明
+
+### 不涉及
+
+- 未触碰任何 JS / CSS 代码逻辑
+- 未改地图生成算法、渲染效果、笔刷行为
+- `main.js` 保持 100 行（本轮未修改，≤100 红线达标）
+
+### 发现项（本轮未处理，待后续）
+
+- `css/app.css` 为压缩单行格式（1677 字符），可读性差但非本轮范围；后续若展开为多行需确认不影响渲染。
+- `main.js` 刚好 100 行踩红线，后续若需改动应先拆到 70~80 行。
+- 文档位置分散：`README.md` 随代码在 `qizheng-v0.4.1/`，而 `file-tree.md` / `changelog.md` / `AI_DEVELOPMENT_RULES` 在仓库顶层，历史遗留，本轮未调整。
+
+### 后续计划
+
+文档收口完成，下一步回 qizheng-interplay 执行 v0.6.0-T1-R1 地形数据模块（地形接入移动/视距/战斗）。
+
+---
+
 ## V0.0.0.16 | 2026-07-02 21:30:00
 
 **v0.6.0：布局与交互稳定性修复 + 全屏 + 日志倒序。** UI/布局收口，不涉及地貌笔刷或渲染算法调整：
