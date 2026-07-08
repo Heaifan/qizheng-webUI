@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>奇正相生 MVP</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="app">
+    <header class="topbar">
+      <div class="brand">奇正相生 MVP</div>
+      <div id="statusText" class="status">初始化中...</div>
+    </header>
+
+    <main id="canvasWrap" class="canvas-wrap">
+      <canvas id="gameCanvas"></canvas>
+    </main>
+
+    <footer class="toolbar">
+      <section>
+        <div class="section-title">地形</div>
+        <div id="terrainButtons" class="button-row"></div>
+      </section>
+      <section>
+        <div class="section-title">操作</div>
+        <div class="button-row">
+          <button id="modeButton">模式：画笔</button>
+          <button id="brushMinus">画笔 -</button>
+          <button id="brushPlus">画笔 +</button>
+          <button id="clearButton">清空</button>
+        </div>
+      </section>
+    </footer>
+  </div>
+
+  <script src="src/config.js"></script>
+  <script src="src/state.js"></script>
+  <script src="map/terrain.js"></script>
+  <script src="map/mapData.js"></script>
+  <script src="map/mapHit.js"></script>
+  <script src="map/mapDraw.js"></script>
+  <script src="map/mapBrush.js"></script>
+  <script src="ui/uiLayout.js"></script>
+  <script src="ui/uiButtons.js"></script>
+  <script src="ui/uiText.js"></script>
+  <script src="ui/uiState.js"></script>
+  <script src="ui/uiBind.js"></script>
+  <script src="input/pointerState.js"></script>
+  <script src="input/pointerMap.js"></script>
+  <script src="input/pointerBrush.js"></script>
+  <script src="input/pointerPan.js"></script>
+  <script src="input/pointerBind.js"></script>
+  <script src="src/canvas.js"></script>
+  <script src="src/loop.js"></script>
+  <script src="src/app.js"></script>
+</body>
+</html>
